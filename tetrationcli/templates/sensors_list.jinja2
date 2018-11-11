@@ -1,0 +1,4 @@
+UUID | Host Name | Agent Type
+{% for item in results %}
+{{ item.uuid }} {{ item.host_name }}    {{ item.agent_type }}
+{% endfor %}

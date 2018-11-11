@@ -34,27 +34,4 @@ class Base(Controller):
         self.app.args.print_help()
 
 
-    @ex(
-        help='example sub command1',
-
-        # sub-command level arguments. ex: 'tetrationcli command1 --foo bar'
-        arguments=[
-            ### add a sample foo option under subcommand namespace
-            ( [ '-f', '--foo' ],
-              { 'help' : 'notorious foo option',
-                'action'  : 'store',
-                'dest' : 'foo' } ),
-        ],
-    )
-    def command1(self):
-        """Example sub-command."""
-
-        data = {
-            'foo' : 'bar',
-        }
-
-        ### do something with arguments
-        if self.app.pargs.foo is not None:
-            data['foo'] = self.app.pargs.foo
-
-        self.app.render(data, 'command1.jinja2')
+    

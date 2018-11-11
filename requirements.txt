@@ -2,3 +2,4 @@ cement==3.0.0
 jinja2
 pyyaml
 colorlog
+tetpyclient==1.0.7

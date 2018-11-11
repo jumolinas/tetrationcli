@@ -3,11 +3,39 @@ from cement import App, TestApp, init_defaults
 from cement.core.exc import CaughtSignal
 from .core.exc import TetrationCLIError
 from .controllers.base import Base
+from .controllers.sensors import Sensors
+from .controllers.swiches import Switches
+
+import os
+from cement.utils import fs
+from tetpyclient import RestClient
+
+def extend_tetpyclient(app):
+    app.log.info('creating tetration session')
+
+    api_credentials_file = app.config.get('tetrationcli', 'api_credentials')
+    api_endpoint = app.config.get('tetrationcli', 'api_endpoint')
+
+    api_credentials_file = fs.abspath(api_credentials_file)
+    
+    api_credentials_dir = os.path.dirname(api_credentials_file)
+    if not os.path.exists(api_credentials_dir):
+        app.log.error('api_credentials file not present in: %s' % api_credentials_file)
+    else:
+        app.log.info('api_credentials file is: %s' % api_credentials_file)
+
+    app.log.info('session to Tetration Cluster %s' % api_endpoint)
+
+    app.extend('tetpyclient', RestClient(api_endpoint,
+                                credentials_file=api_credentials_file,
+                                verify=False))
+
 
 # configuration defaults
-CONFIG = init_defaults('todo')
-CONFIG['todo']['foo'] = 'bar'
-
+CONFIG = init_defaults('tetrationcli')
+# CONFIG['tetrationcli']['api_endpoint'] = 'https://<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>'
+CONFIG['tetrationcli']['api_endpoint'] = 'https://bdsol-ta01.cisco.com'
+CONFIG['tetrationcli']['api_credentials'] = '~/.tetrationcli/api_credentials.json'
 
 class TetrationCLI(App):
     """Tetration Command Line Interaction primary application."""
@@ -28,6 +56,10 @@ class TetrationCLI(App):
             'jinja2',
         ]
 
+        hooks = [
+            ('post_setup', extend_tetpyclient)
+        ]
+
         # configuration handler
         config_handler = 'yaml'
 
@@ -42,7 +74,9 @@ class TetrationCLI(App):
 
         # register handlers
         handlers = [
-            Base
+            Base,
+            Sensors,
+            Switches,
         ]
 
 

@@ -24,6 +24,10 @@ tetrationcli:
 ### sample foo option
 # foo: bar
 
+### Tetration API 
+# api_endpoint = 'https://<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>'
+# api_credentials = '~/.tetrationcli/api_credentials.json'
+
 
 log.colorlog:
 
