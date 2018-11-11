@@ -1,0 +1,13 @@
+version: "3"
+services:
+    tetrationcli:
+        image: "tetrationcli:dev"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        hostname: tetrationcli
+        stdin_open: true
+        tty: true
+        working_dir: '/tetrationcli-dev'
+        volumes:
+            - ".:/tetrationcli-dev"
