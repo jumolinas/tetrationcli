@@ -8,7 +8,7 @@ class Scopes(Controller):
         stacked_type = 'embedded'
         stacked_on = 'base'
 
-    @ex(help='list hardware sensors')
+    @ex(help='list scopes')
     def scopes(self):
         restclient = self.app.tetpyclient
         response = restclient.get('/app_scopes')

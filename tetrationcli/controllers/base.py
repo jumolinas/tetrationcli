@@ -4,7 +4,7 @@ from cement.utils.version import get_version_banner
 from ..core.version import get_version
 
 VERSION_BANNER = """
-MyApp Does Amazing Things! %s
+Application to query Tetration Analytics from the command line %s
 %s
 """ % (get_version(), get_version_banner())
 
@@ -14,10 +14,10 @@ class Base(Controller):
         label = 'base'
 
         # text displayed at the top of --help output
-        description = 'MyApp Does Amazing Things!'
+        description = 'Tetration Analytics CLI tool'
 
         # text displayed at the bottom of --help output
-        epilog = 'Usage: tetrationcli command1 --foo bar'
+        epilog = 'Usage: tetrationcli command'
 
         # controller level arguments. ex: 'tetrationcli --version'
         arguments = [
