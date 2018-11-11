@@ -5,6 +5,11 @@ from .core.exc import TetrationCLIError
 from .controllers.base import Base
 from .controllers.sensors import Sensors
 from .controllers.swiches import Switches
+from .controllers.scopes import Scopes
+from .controllers.roles import Roles
+from .controllers.users import Users
+from .controllers.applications import Applications
+from .controllers.vrfs import VRFs
 
 import os
 from cement.utils import fs
@@ -77,6 +82,11 @@ class TetrationCLI(App):
             Base,
             Sensors,
             Switches,
+            Scopes,
+            Roles,
+            Users,
+            Applications,
+            VRFs,
         ]
 
 
