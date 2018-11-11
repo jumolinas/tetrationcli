@@ -21,9 +21,6 @@ tetrationcli:
 ### The output handler label
 # output_handler: jinja2
 
-### sample foo option
-# foo: bar
-
 ### Tetration API 
 # api_endpoint = 'https://<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>'
 # api_credentials = '~/.tetrationcli/api_credentials.json'

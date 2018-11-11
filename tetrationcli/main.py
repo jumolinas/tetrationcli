@@ -11,36 +11,33 @@ from .controllers.users import Users
 from .controllers.applications import Applications
 from .controllers.vrfs import VRFs
 
-import os
-from cement.utils import fs
 from tetpyclient import RestClient
+import urllib3
 
 def extend_tetpyclient(app):
     app.log.info('creating tetration session')
+    try:
+        api_endpoint = app.config.get('tetrationcli', 'api_endpoint')
+        if '<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>' in api_endpoint or not api_endpoint:
+            raise ValueError('Tetration End Point not set: Check the config file')
+        http = urllib3.PoolManager()
+        http.request('GET', api_endpoint)
 
-    api_credentials_file = app.config.get('tetrationcli', 'api_credentials')
-    api_endpoint = app.config.get('tetrationcli', 'api_endpoint')
+        api_credentials_file = app.config.get('tetrationcli', 'api_credentials')
+        
+        app.log.info('session to Tetration Cluster %s' % api_endpoint)
 
-    api_credentials_file = fs.abspath(api_credentials_file)
-    
-    api_credentials_dir = os.path.dirname(api_credentials_file)
-    if not os.path.exists(api_credentials_dir):
-        app.log.error('api_credentials file not present in: %s' % api_credentials_file)
-    else:
-        app.log.info('api_credentials file is: %s' % api_credentials_file)
-
-    app.log.info('session to Tetration Cluster %s' % api_endpoint)
-
-    app.extend('tetpyclient', RestClient(api_endpoint,
-                                credentials_file=api_credentials_file,
-                                verify=False))
+        app.extend('tetpyclient', RestClient(api_endpoint,
+                                    credentials_file=api_credentials_file,
+                                    verify=False))
+    except Exception as e:
+        app.log.error(str(e))
 
 
 # configuration defaults
 CONFIG = init_defaults('tetrationcli')
-# CONFIG['tetrationcli']['api_endpoint'] = 'https://<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>'
-CONFIG['tetrationcli']['api_endpoint'] = 'https://bdsol-ta01.cisco.com'
-CONFIG['tetrationcli']['api_credentials'] = '~/.tetrationcli/api_credentials.json'
+CONFIG['tetrationcli']['api_endpoint'] = 'https://<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>'
+CONFIG['tetrationcli']['api_credentials'] = '~/.config/tetrationcli/api_credentials.json'
 
 class TetrationCLI(App):
     """Tetration Command Line Interaction primary application."""
@@ -66,10 +63,10 @@ class TetrationCLI(App):
         ]
 
         # configuration handler
-        config_handler = 'yaml'
+        # config_handler = 'yaml'
 
         # configuration file suffix
-        config_file_suffix = '.yml'
+        # config_file_suffix = '.yml'
 
         # set the log handler
         log_handler = 'colorlog'
