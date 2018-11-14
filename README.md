@@ -1,4 +1,4 @@
-# MyApp Does Amazing Things!
+# Tetrationcli to interact with Tetration Cluster via the cli
 
 ## Installation
 
