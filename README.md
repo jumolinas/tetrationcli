@@ -36,6 +36,7 @@ $ make test
 
 
 ### Releasing to PyPi
+#### EXPERIMENTAL 
 
 Before releasing to PyPi, you must configure your login credentials:
 
