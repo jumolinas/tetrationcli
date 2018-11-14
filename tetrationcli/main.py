@@ -11,7 +11,7 @@ from .controllers.roles import Roles
 from .controllers.users import Users
 from .controllers.applications import Applications
 from .controllers.vrfs import VRFs
-
+from .controllers.inventory import Inventory
 
 from tetpyclient import RestClient
 import urllib3
@@ -87,6 +87,7 @@ class TetrationCLI(App):
             Users,
             Applications,
             VRFs,
+            Inventory,
         ]
 
 
