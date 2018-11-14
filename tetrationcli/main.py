@@ -3,13 +3,15 @@ from cement import App, TestApp, init_defaults
 from cement.core.exc import CaughtSignal
 from .core.exc import TetrationCLIError
 from .controllers.base import Base
-from .controllers.sensors import Sensors
+from .controllers.agents import Agents
+from .controllers.agents_inventory import Inventory
 from .controllers.swiches import Switches
 from .controllers.scopes import Scopes
 from .controllers.roles import Roles
 from .controllers.users import Users
 from .controllers.applications import Applications
 from .controllers.vrfs import VRFs
+
 
 from tetpyclient import RestClient
 import urllib3
@@ -77,7 +79,8 @@ class TetrationCLI(App):
         # register handlers
         handlers = [
             Base,
-            Sensors,
+            Agents,
+            Inventory,
             Switches,
             Scopes,
             Roles,
