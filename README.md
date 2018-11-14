@@ -58,7 +58,7 @@ $ make dist-upload
 ## Deployments
 
 ### Docker
-
+#### EXPERIMENTAL 
 Included is a basic `Dockerfile` for building and distributing `Tetration Command Line Interaction`,
 and can be built with the included `make` helper:
 

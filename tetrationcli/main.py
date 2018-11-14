@@ -64,12 +64,6 @@ class TetrationCLI(App):
             ('post_setup', extend_tetpyclient)
         ]
 
-        # configuration handler
-        # config_handler = 'yaml'
-
-        # configuration file suffix
-        # config_file_suffix = '.yml'
-
         # set the log handler
         log_handler = 'colorlog'
 
