@@ -1,3 +1,6 @@
-{% for item in results %}
-{{ item.id }} {{ item.name }}{% endfor %}
-
+{% macro dump_roles(roles) -%}
+{%- for item in roles %}
+{{ caller(item) }}{%- endfor %}
+{%- endmacro %}
+Role ID                  | Name 
+-------------------------+------------------------------------------{% call(item) dump_roles(results) %}{{ item.id }} | {{ item.name }}{% endcall %}

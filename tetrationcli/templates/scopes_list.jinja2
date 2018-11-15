@@ -1,3 +1,7 @@
-{% for item in results %}
-{{ item.id }} {{ item.name }}{% endfor %}
+{% macro dump_scopes(scopes) -%}
+{%- for item in scopes %}
+{{ caller(item) }}{%- endfor %}
+{%- endmacro %}
+Scope ID                 | Name 
+-------------------------+------------------------------------------{% call(item) dump_scopes(results) %}{{ item.id }} | {{ item.name }}{% endcall %}
 

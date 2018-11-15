@@ -1,3 +1,6 @@
-{% for item in results %}
-{{ item.id }} {{ item.name }}{% endfor %}
-
+{% macro dump_applications(applications) -%}
+{%- for item in applications %}
+{{ caller(item) }}{%- endfor %}
+{%- endmacro %}
+Application ID           | Name 
+-------------------------+------------------------------------------{% call(item) dump_applications(results) %}{{ item.id }} | {{ item.name }}{% endcall %}

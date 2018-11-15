@@ -1,3 +1,6 @@
-{% for item in results %}
-{{ item.id }} {{ item.name }}{% endfor %}
-
+{% macro dump_vrfs(vrfs) -%}
+{%- for item in vrfs %}
+{{ caller(item) }}{%- endfor %}
+{%- endmacro %}
+VRF ID                   | Name 
+-------------------------+------------------------------------------{% call(item) dump_vrfs(results) %}{{ item.id }} | {{ item.name }}{% endcall %}
