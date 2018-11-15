@@ -1,3 +1,8 @@
-UUID | Host Name | Agent Type
-{% for item in results %}
-{{ item.uuid }} {{ item.host_name }}    {{ item.agent_type }}{% endfor %}
+{% macro dump_sensors(sensors) -%}
+{%- for item in sensors %}
+{{ caller(item) }}{%- endfor %}
+{%- endmacro %}
+UUID                                     | Host Name                 | Agent Type
+-----------------------------------------+---------------------------+---------------{% call(item) dump_sensors(results) %}{{ item.uuid }} | {{ "%-25s" | format(item.host_name[0:25]) }} | {{ "%-15s" | format(item.agent_type) }}{% endcall %}
+{# {% for item in results %}
+{{ item.uuid }} {{ item.host_name }} {{ item.agent_type }}{% endfor %} #}
