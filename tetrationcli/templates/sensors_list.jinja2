@@ -2,5 +2,5 @@
 {%- for item in sensors %}
 {{ caller(item) }}{%- endfor %}
 {%- endmacro %}
-UUID                                     | Host Name                 | Agent Type
------------------------------------------+---------------------------+---------------{% call(item) dump_sensors(results) %}{{ item.uuid }} | {{ "%-25s" | format(item.host_name[0:25]) }} | {{ "%-15s" | format(item.agent_type) }}{% endcall %}
+UUID                                     | Host Name                 | Agent Type      | Last Check-In
+-----------------------------------------+---------------------------+-----------------+---------------{% call(item) dump_sensors(results) %}{{ item.uuid }} | {{ "%-25s" | format(item.host_name[0:25]) }} | {{ "%-15s" | format(item.agent_type) }} | {{ item.last_config_fetch_at }} {% endcall %}
