@@ -47,10 +47,14 @@ class Applications(Controller):
         pass
 
     @ex(help='update', arguments=[
-            (['application_id'], {'help': 'Application ID','action': 'store'}),
-            (['name'], {'help': 'Application Updated Name','action': 'store'}),
-            (['description'], {'help': 'Application Updated Description','action': 'store'}),
-            (['primary'], {'help': 'Application Updated Primary?','action': 'store'}),
+            (['--application_id', '-aid'], 
+                {'help': 'Application ID','action': 'store', 'dest': 'application_id'}),
+            (['--name', '-n'], 
+                {'help': 'Application Updated Name','action': 'store', 'dest': 'name'}),
+            (['--description', '-dsc'], 
+                {'help': 'Application Updated Description','action': 'store', 'dest': 'description'}),
+            (['--primary', '-pr'], 
+                {'help': 'Application Updated Primary?','action': 'store', 'dest': 'primary'}),
     ],)
     def update(self):
         """

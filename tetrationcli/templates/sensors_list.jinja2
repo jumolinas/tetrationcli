@@ -1,6 +1,14 @@
+UUID                                     | Host Name                 | Agent Type      | Last Check-In 
+{%- if all %} | Current Version      | Forensics?{%- endif %}
+-----------------------------------------+---------------------------+-----------------+---------------
+{%- if all -%}+----------------------+------------{%- endif %}
 {% macro dump_sensors(sensors) -%}
-{%- for item in sensors %}
-{{ caller(item) }}{%- endfor %}
-{%- endmacro %}
-UUID                                     | Host Name                 | Agent Type      | Last Check-In
------------------------------------------+---------------------------+-----------------+---------------{% call(item) dump_sensors(results) %}{{ item.uuid }} | {{ "%-25s" | format(item.host_name[0:25]) }} | {{ "%-15s" | format(item.agent_type) }} | {{ item.last_config_fetch_at }} {% endcall %}
+{% for item in sensors -%}
+{{ caller(item) }}
+{%- endfor -%}
+{%- endmacro -%}
+
+{% call(item) dump_sensors(results) -%}
+{{ item.uuid }} | {{ "%-25s" | format(item.host_name[0:25]) }} | {{ "%-15s" | format(item.agent_type) }} | {{ "%-13d" | format(item.last_config_fetch_at) }} 
+{%- if all %} | {{ "%-20s" | format(item.current_sw_version[0:20]) }} | {{ item.enable_forensics }} {% endif %}
+{% endcall -%}

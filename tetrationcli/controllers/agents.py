@@ -8,7 +8,10 @@ class Agents(Controller):
         stacked_type = 'nested'
         stacked_on = 'base'
 
-    @ex(help='list agents')
+    @ex(help='list agents', arguments=[
+            (['--all', '-a'], 
+                {'help': 'Application ID','action': 'store_true', 'dest': 'all'}),
+    ],)
     def list(self):
         """
         List all the agents registered in Tetration Appliance
@@ -23,6 +26,10 @@ class Agents(Controller):
         self.app.log.debug('command returned: %s' % response.status_code)
         data = {}
         data = json.loads(response.content.decode("utf-8"))
+        if self.app.pargs.all:
+            data['all'] = True
+        else:
+            data['all'] = False
         self.app.log.debug('data returned: %s' % data)
         self.app.render(data, 'sensors_list.jinja2')
     
