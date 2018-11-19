@@ -1,10 +1,21 @@
-Scope ID                 | Name 
--------------------------+------------------------------------------
+Scope ID                 | Name                                     
+{%- if all -%}
+| Parent Scope    | VRF   | Query   
+{%- endif %}
+-------------------------+-----------------------------------------------------
+{% if all -%}
++-----------------+-------+----------------------------------   
+{%- endif -%}
 {% macro dump_scopes(scopes) -%}
 {%- for item in scopes %}
 {{ caller(item) }}{%- endfor %}
 {%- endmacro %}
 {%- call(item) dump_scopes(results) -%}
-{{ item.id }} | {{ item.name }}
+{{ item.id }} | {{ '%-50s' | format(item.name[-50:]) }}
+{%- if all -%}
+{{ item.parent_app_scope_id }} | {{ item.vrf_id }} | {{ item.query }}
+{%- endif %}
+
 {%- endcall %}
 
+{# {'filter_type': 'AppScope', 'id': '5a9435ac497d4f35f6525da7', 'name': 'Unknown', 'description': None, 'short_name': 'Unknown', 'priority': '000:Z', 'short_priority': 0, 'policy_priority': 1, 'query': {'type': 'eq', 'field': 'vrf_id', 'value': 0}, 'short_query': {'type': 'eq', 'field': 'vrf_id', 'value': 0}, 'dirty': False, 'dirty_short_query': None, 'vrf_id': 0, 'parent_app_scope_id': '', 'created_at': 1519662508, 'updated_at': 1519662537, 'switch_vrfs': [], 'child_app_scope_ids': []} #}

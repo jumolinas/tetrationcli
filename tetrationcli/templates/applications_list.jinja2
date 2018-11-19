@@ -1,10 +1,10 @@
 Application ID           | Name 
 -------------------------+------------------------------------------
-{% macro dump_applications(applications) -%}
+{%- macro dump_applications(applications) -%}
 {%- for item in applications -%}
 {{ caller(item) }}
-{%- endfor %}
-{%- endmacro %}
-{%- call(item) dump_applications(results) -%}
+{%- endfor -%}
+{%- endmacro -%}
+{%- call(item) dump_applications(results) %}
 {{ item.id }} | {{ item.name }}
 {%- endcall %}
