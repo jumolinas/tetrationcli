@@ -11,7 +11,7 @@ pip install tetrationcli
 
 ### From sources
 
-Download the sources from [Github](https://github.com/jumolinas/tetrationcli) extract and issue the following commands
+Download the sources from [Github](https://github.com/jumolinas/tetrationcli), extract and execute the following commands
 
 ```
 $ pip install -r requirements.txt
