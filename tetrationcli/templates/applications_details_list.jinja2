@@ -1,1 +1,3 @@
-{% for item in results %}{{ item.serial }} {{ item.name }}    {{ item.agent_version }}{% endfor %}
+{%- for item in results %}
+{{ item.serial }} | {{ item.name }} | {{ item.agent_version }}
+{%- endfor %}

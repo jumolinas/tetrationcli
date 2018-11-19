@@ -117,32 +117,51 @@ class Inventory(Controller):
             self.app.log.error(e)
 
     @ex(help='Get all tags', arguments=[
-        (['app_scope_name'],{'help': 'Application Scope name', 'action': 'store'}),
-        (['ip'],{'help': 'IP to get the tags', 'action': 'store'}),
+        (['-scope'],
+            {'help': 'Application Scope name', 'action': 'store', 'dest': 'app_scope_name'}),
+        (['-ip'],
+            {'help': 'IP to get the tags', 'action': 'store', 'dest': 'ip'}),
     ])
     def tags(self):
-        tags_app_scope_name = self.app.pargs.app_scope_name
-        tags_ip = self.app.pargs.ip
+        data = {
+            'tags_app_scope_name': self.app.pargs.app_scope_name,
+            'tags_ip': self.app.pargs.ip     
+        }
+        
 
-        self.app.log.debug('Inventory Tags: app_scope_name = %s' % tags_app_scope_name)
-        self.app.log.debug('Inventory Tags: ip = %s' % tags_ip)
+        self.app.log.debug('Inventory Tags: app_scope_name = %s' % data['tags_app_scope_name'])
+        self.app.log.debug('Inventory Tags: ip = %s' % data['tags_ip'])
+
+        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+
 
     @ex(help='Set tags', arguments=[
-        (['app_scope_name'],{'help': 'Application Scope name', 'action': 'store'}),
-        (['ip'],{'help': 'IP to get the tags', 'action': 'store'}),
-        (['attributes'],{'help': 'Set the attribute tags', 'action': 'store'}),
+        (['-scope'],
+            {'help': 'Application Scope name', 'action': 'store', 'dest': 'app_scope_name'}),
+        (['-ip'],
+            {'help': 'IP to get the tags', 'action': 'store', 'dest': 'ip'}),
+        (['-attributes'],
+            {'help': 'Set the attribute tags', 'action': 'store', 'dest': 'attributes'}),
     ])
     def set_tags(self):
         """
-        {'ip': '10.1.1.1/24', 'attributes': {'datacenter': 'SJC', 'location': 'CA'}}
+        {
+            'ip': '10.1.1.1/24',
+            'attributes': 
+            {
+                'datacenter': 'SJC', 
+                'location': 'CA'
+            }
+        }
         """
-        set_tags_app_scope_name = self.app.pargs.app_scope_name
-        set_tags_ip = self.app.pargs.ip
-        set_tags_attributes = json.loads(self.app.pargs.attributes)
+        data = {
+            'set_tags_app_scope_name': self.app.pargs.app_scope_name,
+            'set_tags_ip': self.app.pargs.ip,
+            'set_tags_attributes': json.loads(self.app.pargs.attributes)
+        }
 
+        self.app.log.debug('Inventory Set Tags: app_scope_name = %s' % data['set_tags_app_scope_name'])
+        self.app.log.debug('Inventory Set Tags: ip = %s' % data['set_tags_ip'])
+        self.app.log.debug('Inventory Set Tags: attributes = %s' % data['set_tags_attributes'])
 
-        self.app.log.debug('Inventory Set Tags: app_scope_name = %s' % set_tags_app_scope_name)
-        self.app.log.debug('Inventory Set Tags: ip = %s' % set_tags_ip)
-        self.app.log.debug('Inventory Set Tags: attributes = %s' % set_tags_attributes)
-
-
+        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

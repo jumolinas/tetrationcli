@@ -12,20 +12,22 @@ class Roles(Controller):
     def list(self):
         restclient = self.app.tetpyclient
         response = restclient.get('/roles')
-        self.app.log.debug('command returned: %s' % response.status_code)
-        data = {}
-        data['results'] = json.loads(response.content.decode("utf-8"))
-        self.app.log.debug('data returned: %s' % data)
+        self.app.log.debug('Roles Command: %s' % response.status_code)
+        data = {
+            'results': json.loads(response.content.decode("utf-8"))
+        }
+        
+        self.app.log.debug('Roles Data: %s' % data)
         self.app.render(data, 'roles_list.jinja2')
     
     @ex(help='create')
     def create(self):
-        pass
+        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
     
     @ex(help='delete')
     def remove(self):
-        pass
+        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
 
     @ex(help='update')
     def update(self):
-        pass
+        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

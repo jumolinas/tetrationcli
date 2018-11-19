@@ -1,7 +1,10 @@
+User ID                  | Name 
+-------------------------+------------------------------------------
 {% macro dump_users(users) -%}
 {%- for item in users %}
 {{ caller(item) }}{%- endfor %}
 {%- endmacro %}
-User ID                  | Name 
--------------------------+------------------------------------------{% call(item) dump_users(results) %}{{ item.id }} | {{ item.email }}{% endcall %}
+{%- call(item) dump_users(results) %}
+{{ item.id }} | {{ item.email }}
+{%- endcall %}
 
