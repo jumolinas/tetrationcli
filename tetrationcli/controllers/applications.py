@@ -26,14 +26,22 @@ class Applications(Controller):
         self.app.log.debug('data returned: %s' % data)
         return data
     
-    @ex(help='list applications')
+    @ex(help='list applications', arguments=[
+            (
+                ['-all'],
+                    {'help': 'Show more columns', 'action': 'store_true', 'dest': 'all'}
+            )
+    ])
     def list(self):
         """
         Return the list of all the applications
-        TODO: Optional parameter to send back only one application
         """
-        restclient_data = self.restclient('GET','/applications')
-        self.app.render(restclient_data, 'applications_list.jinja2')
+        data = {
+            'all' : self.app.pargs.all,
+            'restclient_data': self.restclient('GET','/applications')
+        }
+
+        self.app.render(data, 'applications_list.jinja2')
 
     @ex(help='create')
     def create(self):
@@ -47,13 +55,13 @@ class Applications(Controller):
         pass
 
     @ex(help='update', arguments=[
-            (['--application_id', '-aid'], 
+            (['-application'], 
                 {'help': 'Application ID','action': 'store', 'dest': 'application_id'}),
-            (['--name', '-n'], 
+            (['-name'], 
                 {'help': 'Application Updated Name','action': 'store', 'dest': 'name'}),
-            (['--description', '-dsc'], 
+            (['-description'], 
                 {'help': 'Application Updated Description','action': 'store', 'dest': 'description'}),
-            (['--primary', '-pr'], 
+            (['-primary'], 
                 {'help': 'Application Updated Primary?','action': 'store', 'dest': 'primary'}),
     ],)
     def update(self):
@@ -86,45 +94,57 @@ class Applications(Controller):
 
 
     @ex(help='details', arguments=[
-        (['application_id'], {'help': 'Application ID for details', 'action': 'store'})
+        (['-application'], 
+            {'help': 'Application ID for details', 'action': 'store', 'dest': 'application_id'})
     ],)
     def details(self):
         """
         """
-        details_application_id = self.app.pargs.application_id
+        data = {
+            'details_application_id': self.app.pargs.application_id
+        }
 
-        self.app.log.debug('Parameter: details_application_id = %s' % details_application_id)
-        restclient_data = self.restclient('GET', '/applications/%s/details' % details_application_id)
-        self.app.render(restclient_data, 'applications_details_list.jinja2')
+        self.app.log.debug('Parameter: details_application_id = %s' % data['details_application_id'])
+        data['restclient_data'] = self.restclient('GET', '/applications/%s/details' % data['details_application_id'])
+        self.app.render(data, 'applications_details_list.jinja2')
 
     @ex(help='delete', arguments=[
-        (['application_id'], {'help': 'Application ID to delete', 'action': 'store'})
+        (['-application'], 
+            {'help': 'Application ID to delete', 'action': 'store', 'dest': 'application_id'})
     ],)
     def delete(self):
-        delete_application_id = self.app.pargs.application_id
+        data = {
+            'delete_application_id': self.app.pargs.application_id
+        }
 
-        self.app.log.debug('Parameter: enforce_application_id = %s' % delete_application_id)
+        self.app.log.debug('Parameter: enforce_application_id = %s' % data['delete_application_id'])
         restclient_data = self.restclient('DELETE', 
-                                '/applications/%s/enable_enforce' % delete_application_id)
+                                '/applications/%s/enable_enforce' % data['delete_application_id'])
 
 
     @ex(help='enforce', arguments=[
-        (['application_id'], {'help': 'Application ID to enforce', 'action': 'store'})
+        (['-application'], 
+            {'help': 'Application ID to enforce', 'action': 'store', 'dest': 'application_id'})
     ],)
     def enforce(self):
-        enforce_application_id = self.app.pargs.application_id
+        data = {
+            'enforce_application_id': self.app.pargs.application_id
+        }
 
-        self.app.log.debug('Parameter: enforce_application_id = %s' % enforce_application_id)
+        self.app.log.debug('Parameter: enforce_application_id = %s' % data['enforce_application_id'])
         restclient_data = self.restclient('POST', 
-                                    '/applications/%s/enable_enforce' % enforce_application_id)
+                                    '/applications/%s/enable_enforce' % data['enforce_application_id'])
         
     @ex(help='disable', arguments=[
-        (['application_id'], {'help': 'Application ID to disable', 'action': 'store'})
+        (['-application'], 
+            {'help': 'Application ID to disable', 'action': 'store', 'dest': 'application_id'})
     ],)
     def disable(self):
-        disable_application_id = self.app.pargs.application_id
+        data = {
+            'disable_application_id': self.app.pargs.application_id
+        }
 
-        self.app.log.debug('Parameter: disable_application_id = %s' % disable_application_id)
+        self.app.log.debug('Parameter: disable_application_id = %s' % data['disable_application_id'])
         restclient_data = self.restclient('POST', 
-                                '/applications/%s/disable_enforce' % disable_application_id)
+                                '/applications/%s/disable_enforce' % data['disable_application_id'])
         

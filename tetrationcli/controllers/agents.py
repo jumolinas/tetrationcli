@@ -35,17 +35,24 @@ class Agents(Controller):
     
     @ex(help='delete', arguments=[
         (
-            ['uuid'], 
-            {'help': 'Delete Sensor','action': 'store'}
+            ['-uuid'], 
+                {'help': 'Delete Sensor','action': 'store', 'dest': 'uuid'}
         )
     ],) 
     def delete(self):
         """
         /openapi/v1/sensors/{uuid}
         """
-        uuid_to_delete = self.app.pargs.uuid
-        self.app.log.debug("Deleting Sensor UUID: %s" % uuid_to_delete)
+        data = {
+            'uuid_to_delete': self.app.pargs.uuid
+        }
+
+        self.app.log.debug("Deleting Sensor UUID: %s" % data['uuid_to_delete'])
         restclient = self.app.tetpyclient
-        response = restclient.delete('/sensors/%s' % uuid_to_delete)
+        response = restclient.delete('/sensors/%s' % data['uuid_to_delete'])
         self.app.log.debug('Deleting Sensor: status_Code=%s' % response.status_code)
         self.app.log.debug('Deleting Sensor: %s' % response.content.decode("utf-8"))
+        if response.status_code in '200':
+            self.app.log.info('Sensor %s deleted' % data['uuid_to_delete'])
+        else:
+            self.app.log.info('Command returned %s' % response.status_code)

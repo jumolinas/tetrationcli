@@ -9,9 +9,12 @@ class Inventory(Controller):
         # stacked_on = 'agents'
 
     @ex(help='Create new filter',arguments=[
-        (['scope'],{'help': 'Application Scope ID', 'action': 'store'}),
-        (['name'],{'help': 'Filter Name', 'action': 'store'}),
-        (['query'],{'help': 'Query in json format', 'action': 'store'}),
+        (['-scope'],
+            {'help': 'Application Scope ID', 'action': 'store', 'dest': 'scope'}),
+        (['-name'],
+            {'help': 'Filter Name', 'action': 'store', 'dest': 'name'}),
+        (['-query'],
+            {'help': 'Query in json format', 'action': 'store', 'dest': 'query'}),
     ])
     def create_filter(self):
         """
@@ -26,22 +29,33 @@ class Inventory(Controller):
         }
         """
         try:
-            scope_id = self.app.pargs.scope
-            filter_name = self.app.pargs.name
-            filter_query = json.loads(self.app.pargs.query)
+            data = {
+                'scope_id': self.app.pargs.scope,
+                'filter_name': self.app.pargs.name,
+                'filter_query': json.loads(self.app.pargs.query)
+            }
+            
 
-            self.app.log.debug('Agent Inventory Scope: %s' % scope_id)
-            self.app.log.debug('Agent Inventory Filter Name: %s' % filter_name)
-            self.app.log.debug('Agent Inventory Filter Query: %s' % filter_query)
+            self.app.log.debug('Agent Inventory Scope: %s' % data['scope_id'])
+            self.app.log.debug('Agent Inventory Filter Name: %s' % data['filter_name'])
+            self.app.log.debug('Agent Inventory Filter Query: %s' % data['filter_query'])
+            
+            self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+
         except Exception as e:
             self.app.log.error(e)
 
     @ex(help='Create new profile', arguments=[
-        (['root_scope'],{'help': 'Root Scope ID', 'action': 'store'}),
-        (['name'],{'help': 'Profile Name', 'action': 'store'}),
-        (['data_plane_disabled'],{'help': 'Data Plane Enabled?', 'action': 'store'}),
-        (['enable_pid_lookup'],{'help': 'Enabled PID Lookup?', 'action': 'store'}),
-        (['enforcement_disabled'],{'help': 'Enforcement Disabled?', 'action': 'store'}),
+        (['-root'],
+            {'help': 'Root Scope ID', 'action': 'store', 'dest': 'root_scope'}),
+        (['-name'],
+            {'help': 'Profile Name', 'action': 'store', 'dest': 'name'}),
+        (['-dpd'],
+            {'help': 'Data Plane Enabled', 'action': 'store_true', 'dest': 'data_plane_disabled'}),
+        (['-epl'],
+            {'help': 'Enabled PID Lookup', 'action': 'store_true', 'dest': 'enable_pid_lookup'}),
+        (['-ed'],
+            {'help': 'Enforcement Disabled?', 'action': 'store_true', 'dest': 'enforcement_disabled'}),
     ])
     def create_profile(self):
         """
@@ -54,24 +68,32 @@ class Inventory(Controller):
         }
         """
         try:
-            root_scope_id = self.app.pargs.root_scope
-            profile_data_plane_disabled = self.app.pargs.data_plane_disabled
-            profile_name = self.app.pargs.name
-            profile_enable_pid_lookup = self.app.pargs.enable_pid_lookup
-            profile_enforcement_disabled = self.app.pargs.enforcement_disabled
+            data = {
+                'root_scope_id': self.app.pargs.root_scope,
+                'profile_data_plane_disabled': self.app.pargs.data_plane_disabled,
+                'profile_name': self.app.pargs.name,
+                'profile_enable_pid_lookup': self.app.pargs.enable_pid_lookup,
+                'profile_enforcement_disabled': self.app.pargs.enforcement_disabled
+            }
+            
 
-            self.app.log.debug('Agent Profile Scope: %s' % root_scope_id)
-            self.app.log.debug('Agent Profile Name: %s' % profile_name)
-            self.app.log.debug('Agent Profile Data Plane Disabled: %s' % profile_data_plane_disabled)
-            self.app.log.debug('Agent Profile Enabled PID Lookup: %s' % profile_enable_pid_lookup)
-            self.app.log.debug('Agent Profile Enforcement Disabled: %s' % profile_enforcement_disabled)
+            self.app.log.debug('Agent Profile Scope: %s' % data['root_scope_id'])
+            self.app.log.debug('Agent Profile Name: %s' % data['profile_name'])
+            self.app.log.debug('Agent Profile Data Plane Disabled: %s' % data['profile_data_plane_disabled'])
+            self.app.log.debug('Agent Profile Enabled PID Lookup: %s' % data['profile_enable_pid_lookup'])
+            self.app.log.debug('Agent Profile Enforcement Disabled: %s' % data['profile_enforcement_disabled'])
+
+            self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+
         except Exception as e:
             self.app.log.error(e)
 
         
     @ex(help='Create new intent', arguments=[
-        (['profile_id'],{'help': 'Root Scope ID', 'action': 'store'}),
-        (['filter_id'],{'help': 'Profile Name', 'action': 'store'}),
+        (['-profile'],
+            {'help': 'Profile ID', 'action': 'store', 'dest': 'profile_id'}),
+        (['-filter'],
+            {'help': 'Filter ID', 'action': 'store', 'dest': 'filter_id'}),
     ])
     def create_intent(self):
         """
@@ -81,17 +103,16 @@ class Inventory(Controller):
         }
         """
         try:
-            root_scope_id = self.app.pargs.root_scope
-            profile_data_plane_disabled = self.app.pargs.data_plane_disabled
-            profile_name = self.app.pargs.name
-            profile_enable_pid_lookup = self.app.pargs.enable_pid_lookup
-            profile_enforcement_disabled = self.app.pargs.enforcement_disabled
+            data = {
+                'profile_id': self.app.pargs.profile_id,
+                'filter_id': self.app.pargs.filter_id
+            }
 
-            self.app.log.debug('Agent Profile Scope: %s' % root_scope_id)
-            self.app.log.debug('Agent Profile Name: %s' % profile_name)
-            self.app.log.debug('Agent Profile Data Plane Disabled: %s' % profile_data_plane_disabled)
-            self.app.log.debug('Agent Profile Enabled PID Lookup: %s' % profile_enable_pid_lookup)
-            self.app.log.debug('Agent Profile Enforcement Disabled: %s' % profile_enforcement_disabled)
+            self.app.log.debug('Inventory Profile ID: %s' % data['profile_id'])
+            self.app.log.debug('Inventory Filter ID: %s' % data['filter_id'])
+            
+            self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+
         except Exception as e:
             self.app.log.error(e)
 
