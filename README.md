@@ -1,6 +1,17 @@
 # Tetrationcli to interact with Tetration Cluster via the cli
 
 ## Installation
+Currently there are very limited options working, this application still in Alpha state. For any improvements or comments fill an issue and we'll work on it.
+
+### From PyPI
+
+```
+pip install tetrationcli
+```
+
+### From sources
+
+Download the sources from (Github)[https://github.com/jumolinas/tetrationcli] extract and issue the following commands
 
 ```
 $ pip install -r requirements.txt
@@ -8,63 +19,20 @@ $ pip install -r requirements.txt
 $ pip install setup.py
 ```
 
-## Development
-
-This project includes a number of helpers in the `Makefile` to streamline common development tasks.
-
-### Environment Setup
-
-The following demonstrates setting up and working with a development environment:
+## How to use the application:
+To access to the cluster you need to get the API Credentials. 
+The file `api_credentials.json` downloaded from the cluster is expected to be placed in folder `~/.config/tetrationcli/` then to define the cluster name you need to create the config file `tetrationcli.conf` in `~/.config/tetrationcli/`
 
 ```
-### create a virtualenv for development
-
-$ make virtualenv
-
-$ source env/bin/activate
-
-
-### run tetrationcli cli application
-
-$ tetrationcli --help
-
-
-### run pytest / coverage
-
-$ make test
+total 16
+0 drwxr-xr-x   4 user  staff  128 Nov 11 16:16 .
+0 drwx------  13 user  staff  416 Nov 11 16:10 ..
+8 -rw-r--r--@  1 user  staff  111 Nov 11 09:52 api_credentials.json
+8 -rw-r--r--   1 user  staff  121 Nov 11 16:16 tetrationcli.conf
 ```
-
-
-### Releasing to PyPi
-#### EXPERIMENTAL 
-
-Before releasing to PyPi, you must configure your login credentials:
-
-**~/.pypirc**:
-
+and the file `tetrationcli.conf` requires the information:
 ```
-[pypi]
-username = YOUR_USERNAME
-password = YOUR_PASSWORD
-```
-
-Then use the included helper function via the `Makefile`:
-
-```
-$ make dist
-
-$ make dist-upload
-```
-
-## Deployments
-
-### Docker
-#### EXPERIMENTAL 
-Included is a basic `Dockerfile` for building and distributing `Tetration Command Line Interaction`,
-and can be built with the included `make` helper:
-
-```
-$ make docker
-
-$ docker run -it tetrationcli --help
+[tetrationcli]
+api_endpoint = https://mygreatapp.example.com
+api_credentials = ~/.config/tetrationcli/api_credentials.json
 ```
