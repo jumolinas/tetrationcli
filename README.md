@@ -1,7 +1,7 @@
 # Tetrationcli to interact with Tetration Cluster via the cli
 
 ## Installation
-Currently there are very limited options working, this application still in Alpha state. For any improvements or comments fill an issue and we'll work on it.
+Currently there are very limited options working, this application still in ALPHA state. For any improvements or comments fill an issue and we'll work on it.
 
 ### From PyPI
 
@@ -11,7 +11,7 @@ pip install tetrationcli
 
 ### From sources
 
-Download the sources from (Github)[https://github.com/jumolinas/tetrationcli] extract and issue the following commands
+Download the sources from [Github](https://github.com/jumolinas/tetrationcli) extract and issue the following commands
 
 ```
 $ pip install -r requirements.txt
