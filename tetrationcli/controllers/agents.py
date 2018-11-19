@@ -52,7 +52,9 @@ class Agents(Controller):
         response = restclient.delete('/sensors/%s' % data['uuid_to_delete'])
         self.app.log.debug('Deleting Sensor: status_Code=%s' % response.status_code)
         self.app.log.debug('Deleting Sensor: %s' % response.content.decode("utf-8"))
-        if response.status_code in '200':
+        if response.status_code == 204:
             self.app.log.info('Sensor %s deleted' % data['uuid_to_delete'])
         else:
-            self.app.log.info('Command returned %s' % response.status_code)
+            self.app.log.error('{0}: Sensor ID {1} - {2}'.format(response.status_code
+                                                , data['uuid_to_delete']
+                                                , response.content.decode('utf8')))
