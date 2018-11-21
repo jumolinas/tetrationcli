@@ -1,6 +1,5 @@
 from cement import Controller, ex
 import json
-import pickle
 
 class Applications(Controller):
     
