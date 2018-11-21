@@ -20,13 +20,10 @@ class Enforcement(Controller):
         response = restclient.get('/enforcement/agents/{0}/network_policy_config'.format(agent_uuid))
 
         self.app.log.debug('{0} {1}'.format(response.status_code, response.content))
-        data = {
-            'results': response.content.decode('utf-8'),
-        }
+        data = json.loads(response.content.decode('utf-8'))
         
 
         self.app.render(data, 'enforcement_list.jinja2')
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
 
     @ex(help='Policy Statistics', arguments=[
         (['-aid'],

@@ -1,0 +1,25 @@
+
+Agent: 
+UUID: {{ agent_config.agent_uuid }} 
+Tetration Rules Only? {{ agent_config.control_tet_rules_only }}
+Enforcement Enabled? {{ agent_config.enforcement_enabled }} 
+Fail Mode {{ agent_config.fail_mode }} 
+-----------
+Status:
+Current Version: {{ agent_config_status.current_version }} 
+Highest Seen Version: {{ agent_config_status.highest_seen_version }} 
+{%- for item in desired_network_policy_config.network_policy %}
+-----------
+Policy: {{ item.concrete_policy_id }}
+Intent: {{ item.enforcement_intent_id }}
+  Type:             {{ item.action.type }} 
+  Address Family:   {{ item.match.address_family }}
+  Direction:        {{ item.match.direction }}
+  Protocol:         {{ item.match.protocol }}
+  Destination:      {{ item.match_set.dst_set_id }}
+  Source:           {{ item.match_set.src_set_id }}
+  Priority:         {{ item.priority }}
+{% endfor -%}
+-------------
+Error Reason: {{ provisioned_network_policy_config.error_reason }}
+Version :     {{ provisioned_network_policy_config.version }}
