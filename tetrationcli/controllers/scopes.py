@@ -9,7 +9,7 @@ class Scopes(Controller):
         # stacked_on = 'base'
 
     @ex(help='list scopes', arguments=[
-        (['-a', '--all'],
+        (['-all'],
             {'help': 'show more columns', 'action': 'store_true', 'dest': 'all'})
     ])
     def list(self):
@@ -28,11 +28,11 @@ class Scopes(Controller):
         self.app.render(data, 'scopes_list.jinja2')
 
     @ex(help='create new scope', arguments=[
-        (['--name', '-n'],
+        (['-name'],
             {'help': 'Name of the scope', 'action': 'store', 'dest': 'name'}),
-        (['--query', '-q'],
+        (['-query'],
             {'help': 'Query in JSON format', 'action': 'store', 'dest': 'query'}),
-        (['--parent', '-p'],
+        (['-parent'],
             {'help': 'Parent Scope ID', 'action': 'store', 'dest': 'parent'}),
     ])
     def create(self):
@@ -61,7 +61,7 @@ class Scopes(Controller):
         self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
     
     @ex(help='delete scope', arguments=[
-        (['--scope', '-s'], 
+        (['-scope'], 
             {'help': 'Scope ID to Remove', 'action': 'store', 'dest': 'scope_id'})
     ])
     def delete(self):

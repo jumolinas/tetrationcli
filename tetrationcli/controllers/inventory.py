@@ -8,6 +8,25 @@ class Inventory(Controller):
         stacked_type = 'nested'
         # stacked_on = 'agents'
 
+    @ex(help='List inventories', arguments=[
+        (['-all'],
+            {'help': 'Show more columns', 'action': 'store_true', 'dest': 'all'})
+    ])
+    def list(self):
+        """
+        """
+        restclient = self.app.tetpyclient
+        response = restclient.get('/filters/inventories')
+        self.app.log.debug('Return {0}: {1}'.format(response.status_code,
+                                                    response.content.decode('utf-8')))
+        
+        data = {
+            'all': False,
+            'returns': response.content.decode('utf-8')
+        }
+
+        self.app.render(data, 'inventory_list.jinja2')
+
     @ex(help='Create new filter',arguments=[
         (['-scope'],
             {'help': 'Application Scope ID', 'action': 'store', 'dest': 'scope'}),
@@ -30,20 +49,47 @@ class Inventory(Controller):
         """
         try:
             data = {
-                'scope_id': self.app.pargs.scope,
-                'filter_name': self.app.pargs.name,
-                'filter_query': json.loads(self.app.pargs.query)
+                'app_scope_id': self.app.pargs.scope,
+                'name': self.app.pargs.name,
+                'query': json.loads(self.app.pargs.query)
             }
             
 
-            self.app.log.debug('Agent Inventory Scope: %s' % data['scope_id'])
-            self.app.log.debug('Agent Inventory Filter Name: %s' % data['filter_name'])
-            self.app.log.debug('Agent Inventory Filter Query: %s' % data['filter_query'])
+            self.app.log.debug('Agent Inventory Scope: %s' % data['app_scope_id'])
+            self.app.log.debug('Agent Inventory Filter Name: %s' % data['name'])
+            self.app.log.debug('Agent Inventory Filter Query: %s' % data['query'])
             
+            resclient = self.app.tetpyclient
+            response = resclient.post('/filters/inventories', json_body=json.dumps(data))
+
+            if response.status_code > 299:
+                self.app.log.error('{0}'.format(response.status_code))
+
+            self.app.log.info('Successfully created {0}'.format(data['name']))
+
             self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
 
         except Exception as e:
             self.app.log.error(e)
+
+    @ex(help='List inventory details', arguments=[
+        (['-id'],
+            {'help': 'Inventory ID', 'action': 'store', 'dest': 'inventory_id'})
+    ])
+    def details(self):
+        """
+        """
+        data = {
+            'inventory_id': self.app.pargs.inventory_id
+        }
+
+        resclient = self.app.tetpyclient
+        response = resclient.get('/filters/inventories/{0}'.format(data['inventory_id']))
+        self.app.log.debug('{0} {1}'.format(response.status_code, response.content.decode('utf-8')))
+
+        data['results'] = response.content.decode('utf-8')
+
+        self.app.render(data, 'inventory_details.jinja2')
 
     @ex(help='Create new profile', arguments=[
         (['-root'],
