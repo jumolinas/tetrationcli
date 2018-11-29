@@ -20,14 +20,14 @@ class Switches(Controller):
         self.app.log.debug('data returned: %s' % data)
         self.app.render(data, 'switches_list.jinja2')
 
-    @ex(help='create')
-    def create(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-    
     @ex(help='delete')
     def remove(self):
         self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
 
-    @ex(help='update')
-    def update(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+    # @ex(help='create')
+    # def create(self):
+    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+
+    # @ex(help='update')
+    # def update(self):
+    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

@@ -64,46 +64,46 @@ class Scopes(Controller):
         (['-priority'],
             {'help': 'Policy Priority number', 'action': 'store', 'dest': 'priority'}),
     ])
-    def create(self):
-        """
-        {
-            "short_name": "App Scope Name",
-            "short_query": {"type":"eq",
-                "field":"ip",
-                "value": <....>
-            },
-            "parent_app_scope_id": <parent_app_scope_id>
-        }
-        """
-        restclient = self.app.tetpyclient
-        data = {}
-        query_check = json.loads(self.app.pargs.query)
+    # def create(self):
+    #     """
+    #     {
+    #         "short_name": "App Scope Name",
+    #         "short_query": {"type":"eq",
+    #             "field":"ip",
+    #             "value": <....>
+    #         },
+    #         "parent_app_scope_id": <parent_app_scope_id>
+    #     }
+    #     """
+    #     restclient = self.app.tetpyclient
+    #     data = {}
+    #     query_check = json.loads(self.app.pargs.query)
 
-        if query_check['type'] is None or query_check['field'] is None or query_check['value'] is None:
-            query_tmplate = '{ "type": "eq", "field": "ip", "value": <...> }'
-            self.app.log.error('Incorrect query: as example {0}'.format(query_tmplate))            
-        else:
-            data = {
-                'short_name': self.app.pargs.name,
-                'short_query': query_check,
-                'parent_app_scope_id': self.app.pargs.parent
-            }
+    #     if query_check['type'] is None or query_check['field'] is None or query_check['value'] is None:
+    #         query_tmplate = '{ "type": "eq", "field": "ip", "value": <...> }'
+    #         self.app.log.error('Incorrect query: as example {0}'.format(query_tmplate))            
+    #     else:
+    #         data = {
+    #             'short_name': self.app.pargs.name,
+    #             'short_query': query_check,
+    #             'parent_app_scope_id': self.app.pargs.parent
+    #         }
 
-        if self.app.pargs.description:
-            data['description'] = self.app.pargs.description
-        if self.app.pargs.priority:
-            data['priority'] = self.app.pargs.priority
+    #     if self.app.pargs.description:
+    #         data['description'] = self.app.pargs.description
+    #     if self.app.pargs.priority:
+    #         data['priority'] = self.app.pargs.priority
 
-        response = restclient.post('/app_scopes', json_body=json.dumps(data))
-        self.app.log.debug('Response {0}: {1}'.format(response.status_code, 
-                                                    response.content.decode("utf-8")))
+    #     response = restclient.post('/app_scopes', json_body=json.dumps(data))
+    #     self.app.log.debug('Response {0}: {1}'.format(response.status_code, 
+    #                                                 response.content.decode("utf-8")))
 
-        ret_content = json.loads(response.content.decode('utf-8'))
+    #     ret_content = json.loads(response.content.decode('utf-8'))
         
-        if response.status_code > 299:
-            self.app.log.error('{0} - {1}'.format(ret_content['status'], ret_content['error']))
-        else:
-            self.app.log.info('Scope {} created successfully'.format(ret_content['name']))
+    #     if response.status_code > 299:
+    #         self.app.log.error('{0} - {1}'.format(ret_content['status'], ret_content['error']))
+    #     else:
+    #         self.app.log.info('Scope {} created successfully'.format(ret_content['name']))
     
     @ex(help='delete scope', arguments=[
         (['-scope'], 
@@ -133,65 +133,65 @@ class Scopes(Controller):
         else:
             self.app.log.info('Scope {0} successfully deleted'.format(data['scope_id']))
 
-    @ex(help='update', arguments=[
-        (['-scope'], 
-            {'help': 'Scope ID to Update', 'action': 'store', 'dest': 'scope_id'}),
-        (['-name'],
-            {'help': 'Name of the scope', 'action': 'store', 'dest': 'name'}),
-        (['-description'],
-            {'help': 'Description of the scope', 'action': 'store', 'dest': 'description'}),
-        (['-query'],
-            {'help': 'Query in JSON format', 'action': 'store', 'dest': 'query'}),
-    ])
-    def update(self):
-        """
-        {
-            "short_name": "App Scope Name",
-            "short_query": {"type":"eq",
-                "field":"ip",
-                "value": <....>
-            },
-            "parent_app_scope_id": <parent_app_scope_id>
-        }
-        """
-        restclient = self.app.tetpyclient
-        data = {}
-        dirty_query = False
-        scope_id = self.app.pargs.scope_id
-        if self.app.pargs.name:
-            data['short_name'] = self.app.pargs.name
-        if self.app.pargs.description:
-            data['description'] = self.app.pargs.description
+    # @ex(help='update', arguments=[
+    #     (['-scope'], 
+    #         {'help': 'Scope ID to Update', 'action': 'store', 'dest': 'scope_id'}),
+    #     (['-name'],
+    #         {'help': 'Name of the scope', 'action': 'store', 'dest': 'name'}),
+    #     (['-description'],
+    #         {'help': 'Description of the scope', 'action': 'store', 'dest': 'description'}),
+    #     (['-query'],
+    #         {'help': 'Query in JSON format', 'action': 'store', 'dest': 'query'}),
+    # ])
+    # def update(self):
+    #     """
+    #     {
+    #         "short_name": "App Scope Name",
+    #         "short_query": {"type":"eq",
+    #             "field":"ip",
+    #             "value": <....>
+    #         },
+    #         "parent_app_scope_id": <parent_app_scope_id>
+    #     }
+    #     """
+    #     restclient = self.app.tetpyclient
+    #     data = {}
+    #     dirty_query = False
+    #     scope_id = self.app.pargs.scope_id
+    #     if self.app.pargs.name:
+    #         data['short_name'] = self.app.pargs.name
+    #     if self.app.pargs.description:
+    #         data['description'] = self.app.pargs.description
         
-        if self.app.pargs.query:
-            query_check = json.loads(self.app.pargs.query)
-            if query_check['type'] is None or query_check['field'] is None or query_check['value'] is None:
-                query_tmplate = '{ "type": "eq", "field": "ip", "value": <...> }'
-                self.app.log.error('Incorrect query: as example {0}'.format(query_tmplate)) 
-            else:
-                data['short_query'] = query_check
-                dirty_query = True
+    #     if self.app.pargs.query:
+    #         query_check = json.loads(self.app.pargs.query)
+    #         if query_check['type'] is None or query_check['field'] is None or query_check['value'] is None:
+    #             query_tmplate = '{ "type": "eq", "field": "ip", "value": <...> }'
+    #             self.app.log.error('Incorrect query: as example {0}'.format(query_tmplate)) 
+    #         else:
+    #             data['short_query'] = query_check
+    #             dirty_query = True
 
 
-        response = restclient.put('/app_scopes/{0}'.format(scope_id), json_body=json.dumps(data))
-        self.app.log.debug('Response {0}: {1}'.format(response.status_code, 
-                                                    response.content.decode("utf-8")))
+    #     response = restclient.put('/app_scopes/{0}'.format(scope_id), json_body=json.dumps(data))
+    #     self.app.log.debug('Response {0}: {1}'.format(response.status_code, 
+    #                                                 response.content.decode("utf-8")))
 
-        ret_content = json.loads(response.content.decode('utf-8'))
+    #     ret_content = json.loads(response.content.decode('utf-8'))
         
-        if response.status_code > 299:
-            self.app.log.error('{0} - {1}'.format(ret_content['status'], ret_content['error']))
-        else:
-            self.app.log.info('Scope {} updated successfully'.format(ret_content['name']))
+    #     if response.status_code > 299:
+    #         self.app.log.error('{0} - {1}'.format(ret_content['status'], ret_content['error']))
+    #     else:
+    #         self.app.log.info('Scope {} updated successfully'.format(ret_content['name']))
         
-        if dirty_query:
-            root_scope = self.root_scope(restclient, scope_id)
-            self.app.log.info('Dirty update detected, committing scope query changes')
-            resp_commit = restclient.post('/app_scopes/commit_dirty?root_app_scope_id={0}'.format(root_scope))
-            self.app.log.debug('Response {0}: {1}'.format(resp_commit.status_code, 
-                                                    resp_commit.content.decode("utf-8")))
-            if resp_commit.status_code < 299:
-                self.app.log.info('Scope {0} successfully commited'.format(ret_content['name']))
+    #     if dirty_query:
+    #         root_scope = self.root_scope(restclient, scope_id)
+    #         self.app.log.info('Dirty update detected, committing scope query changes')
+    #         resp_commit = restclient.post('/app_scopes/commit_dirty?root_app_scope_id={0}'.format(root_scope))
+    #         self.app.log.debug('Response {0}: {1}'.format(resp_commit.status_code, 
+    #                                                 resp_commit.content.decode("utf-8")))
+    #         if resp_commit.status_code < 299:
+    #             self.app.log.info('Scope {0} successfully commited'.format(ret_content['name']))
         
     @ex(help='show policy order from scope', arguments=[
         (['-scope'], 

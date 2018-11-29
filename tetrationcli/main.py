@@ -4,7 +4,7 @@ from cement.core.exc import CaughtSignal
 from .core.exc import TetrationCLIError
 from .controllers.base import Base
 from .controllers.agents import Agents
-from .controllers.agents_inventory import Inventory
+# from .controllers.agents_inventory import Inventory
 from .controllers.swiches import Switches
 from .controllers.scopes import Scopes
 from .controllers.roles import Roles
@@ -75,7 +75,7 @@ class TetrationCLI(App):
         handlers = [
             Base,
             Agents,
-            Inventory,
+            # Inventory,
             Switches,
             Scopes,
             Roles,

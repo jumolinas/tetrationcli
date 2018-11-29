@@ -19,7 +19,7 @@ $ pip install -r requirements.txt
 $ pip install setup.py
 ```
 
-## How to use the application:
+## Basic to run the application:
 To access to the cluster you need to get the API Credentials. 
 The file `api_credentials.json` downloaded from the cluster is expected to be placed in folder `~/.config/tetrationcli/` then to define the cluster name you need to create the config file `tetrationcli.conf` in `~/.config/tetrationcli/`
 

@@ -20,14 +20,14 @@ class Users(Controller):
         self.app.log.debug('data returned: %s' % data)
         self.app.render(data, 'users_list.jinja2')
 
-    @ex(help='create')
-    def create(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-    
     @ex(help='delete')
-    def remove(self):
+    def delete(self):
         self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
 
-    @ex(help='update')
-    def update(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+    # @ex(help='create')
+    # def create(self):
+    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+
+    # @ex(help='update')
+    # def update(self):
+    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
