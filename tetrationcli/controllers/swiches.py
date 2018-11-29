@@ -21,7 +21,7 @@ class Switches(Controller):
         self.app.render(data, 'switches_list.jinja2')
 
     @ex(help='delete')
-    def remove(self):
+    def delete(self):
         self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
 
     # @ex(help='create')
