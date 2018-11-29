@@ -1,5 +1,5 @@
 from cement import Controller, ex
-import json
+import json, time
 
 class Agents(Controller):
 
@@ -26,12 +26,17 @@ class Agents(Controller):
         self.app.log.debug('command returned: %s' % response.status_code)
         data = {}
         data = json.loads(response.content.decode("utf-8"))
-        if self.app.pargs.all:
-            data['all'] = True
-        else:
-            data['all'] = False
+        
         self.app.log.debug('data returned: %s' % data)
-        self.app.render(data, 'sensors_list.jinja2')
+        headers = ['UUID', 'Host Name', 'Agent Type', 'Last Check-in']
+        data_list = [[x['uuid'],
+                    x['host_name'],
+                    x['agent_type'],
+                    time.strftime('%Y-%m-%d %H:%M:%S', 
+                        time.localtime(x['last_config_fetch_at']))]
+                                            for x in data['results'] ]
+        
+        self.app.render(data_list, headers=headers)
     
     @ex(help='delete', arguments=[
         (

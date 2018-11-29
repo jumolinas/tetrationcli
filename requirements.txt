@@ -1,5 +1,6 @@
 cement==3.0.0
-jinja2
 pyyaml
 colorlog
+urllib3
+tabulate
 tetpyclient==1.0.7

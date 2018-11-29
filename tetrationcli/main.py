@@ -59,6 +59,7 @@ class TetrationCLI(App):
             'yaml',
             'colorlog',
             'jinja2',
+            'tabulate',
         ]
 
         hooks = [
@@ -69,7 +70,8 @@ class TetrationCLI(App):
         log_handler = 'colorlog'
 
         # set the output handler
-        output_handler = 'jinja2'
+        # output_handler = 'jinja2'
+        output_handler = 'tabulate'
 
         # register handlers
         handlers = [

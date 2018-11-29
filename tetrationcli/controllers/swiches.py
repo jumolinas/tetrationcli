@@ -13,21 +13,16 @@ class Switches(Controller):
         restclient = self.app.tetpyclient
         response = restclient.get('/switches')
         self.app.log.debug('command returned: %s' % response.status_code)
-        data = {
-            'results': json.loads(response.content.decode("utf-8"))
-        }
+        data = json.loads(response.content.decode("utf-8"))
         
-        self.app.log.debug('data returned: %s' % data)
-        self.app.render(data, 'switches_list.jinja2')
+        headers = ['IP', 'Name', 'Serial', 'NXOS Version']
+        data_list = [[x['ip'],
+                    x['name'],
+                    x['serial'],
+                    x['nxos_version']] for x in data ]
+
+        self.app.render(data_list, headers=headers)
 
     @ex(help='delete')
     def delete(self):
         self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-
-    # @ex(help='create')
-    # def create(self):
-    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-
-    # @ex(help='update')
-    # def update(self):
-    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

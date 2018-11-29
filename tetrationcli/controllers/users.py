@@ -13,21 +13,15 @@ class Users(Controller):
         restclient = self.app.tetpyclient
         response = restclient.get('/users')
         self.app.log.debug('command returned: %s' % response.status_code)
-        data = {
-            'results': json.loads(response.content.decode("utf-8"))
-        }
+        data = json.loads(response.content.decode("utf-8"))
         
-        self.app.log.debug('data returned: %s' % data)
-        self.app.render(data, 'users_list.jinja2')
+        headers = ['User ID', 'Name', 'e-Mail']
+        data_list = [[x['id'],
+                    '{0} {1}'.format(x['first_name'],x['last_name']),
+                    x['email']] for x in data ]
+
+        self.app.render(data_list, headers=headers)
 
     @ex(help='delete')
     def delete(self):
         self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-
-    # @ex(help='create')
-    # def create(self):
-    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-
-    # @ex(help='update')
-    # def update(self):
-    #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
