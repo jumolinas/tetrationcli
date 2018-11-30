@@ -36,10 +36,10 @@ class Enforcement(Controller):
                         time.localtime(data['agent_config_status']['highest_seen_version']))])
 
             data_list.append([data['agent_uuid'],'Network Policy Version',time.strftime('%Y-%m-%d %H:%M:%S', 
-                        time.localtime(data['desired_network_policy_config']['version']))])
+                        time.localtime(int(data['desired_network_policy_config']['version'])))])
 
             data_list.append([data['agent_uuid'],'Version',time.strftime('%Y-%m-%d %H:%M:%S', 
-                        time.localtime(data['provisioned_network_policy_config']['version']))])
+                        time.localtime(int(data['provisioned_network_policy_config']['version'])))])
             data_list.append([data['agent_uuid'],'Status',data['provisioned_network_policy_config']['error_reason']])
 
             self.app.render(data_list, headers=headers)
