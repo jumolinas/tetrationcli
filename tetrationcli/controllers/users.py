@@ -12,7 +12,8 @@ class Users(Controller):
     def list(self):
         restclient = self.app.tetpyclient
         response = restclient.get('/users')
-        self.app.log.debug('command returned: %s' % response.status_code)
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         data = json.loads(response.content.decode("utf-8"))
         
         headers = ['User ID', 'Name', 'e-Mail']

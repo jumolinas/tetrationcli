@@ -16,8 +16,8 @@ class Inventory(Controller):
         """
         restclient = self.app.tetpyclient
         response = restclient.get('/filters/inventories')
-        self.app.log.debug('Return {0}: {1}'.format(response.status_code,
-                                                    response.content.decode('utf-8')))
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         
         data = json.loads(response.content.decode('utf-8'))
         headers = ['UUID', 'Name', 'Scope ID', 'Query']
@@ -41,7 +41,8 @@ class Inventory(Controller):
 
         resclient = self.app.tetpyclient
         response = resclient.get('/filters/inventories/{0}'.format(data['inventory_id']))
-        self.app.log.debug('{0} {1}'.format(response.status_code, response.content.decode('utf-8')))
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
 
         data = json.loads(response.content.decode('utf-8'))
         headers = ['UUID', 'Name', 'Scope ID', 'Query']

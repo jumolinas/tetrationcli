@@ -41,7 +41,8 @@ class Scopes(Controller):
         restclient = self.app.tetpyclient
         
         response = restclient.get('/app_scopes')
-        self.app.log.debug('command returned: %s' % response.status_code)
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
 
         data = json.loads(response.content.decode("utf-8"))
         headers = ['Scope ID', 'Name', 'Parent Scope', 'VRF']
@@ -65,8 +66,8 @@ class Scopes(Controller):
             'scope_id': self.app.pargs.scope_id
         }
         response = restclient.delete('/app_scopes/{0}'.format(data['scope_id']))
-        self.app.log.debug('Response {0}: {1}'.format(response.status_code, 
-                                                    response.content.decode("utf-8")))
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         if response.status_code == 422:
             error_details = json.loads(response.content.decode("utf-8"))
             error_message = '{0} \nDetails:\n'.format(error_details['error'])
@@ -86,13 +87,12 @@ class Scopes(Controller):
     ])
     def policy(self):
         restclient = self.app.tetpyclient
-        data = {}
         scope_id = self.app.pargs.scope_id
 
         response = restclient.get('/app_scopes/{0}/policy_order'.format(scope_id))
         json_content = json.loads(response.content.decode('utf-8'))
-        self.app.log.debug('Response {0}: {1}'.format(response.status_code, 
-                                                    response.content.decode("utf-8")))
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         
         if response.status_code > 299:
             self.app.log.error('{0} - {1}'.format(json_content['status'], json_content['error']))

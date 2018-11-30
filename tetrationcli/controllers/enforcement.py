@@ -1,5 +1,5 @@
 from cement import Controller, ex
-import json
+import json, time
 
 class Enforcement(Controller):
     
@@ -16,14 +16,35 @@ class Enforcement(Controller):
         GET /openapi/v1/enforcement/agents/{aid}/network_policy_config
         """
         agent_uuid = self.app.pargs.agent_uuid
-        restclient = self.app.tetpyclient
-        response = restclient.get('/enforcement/agents/{0}/network_policy_config'.format(agent_uuid))
+        if agent_uuid:
+            restclient = self.app.tetpyclient
+            response = restclient.get('/enforcement/agents/{0}/network_policy_config'.format(agent_uuid))
+            self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                    response.content.decode('utf-8')))
+            
+            data = json.loads(response.content.decode('utf-8'))
+            
+            headers = ['Agent ID', 'Key', 'Value']
+            data_list = []
+            data_list.append([data['agent_uuid'], 'Tetration Rules Only', data['agent_config']['control_tet_rules_only']])
+            data_list.append([data['agent_uuid'],'Enforcement?',data['agent_config']['enforcement_enabled']])
+            data_list.append([data['agent_uuid'],'Fail Mode',data['agent_config']['fail_mode']])
 
-        self.app.log.debug('{0} {1}'.format(response.status_code, response.content))
-        data = json.loads(response.content.decode('utf-8'))
-        
+            data_list.append([data['agent_uuid'],'Current Version',time.strftime('%Y-%m-%d %H:%M:%S', 
+                        time.localtime(data['agent_config_status']['current_version']))])
+            data_list.append([data['agent_uuid'],'Highest Version Seen',time.strftime('%Y-%m-%d %H:%M:%S', 
+                        time.localtime(data['agent_config_status']['highest_seen_version']))])
 
-        self.app.render(data, 'enforcement_list.jinja2')
+            data_list.append([data['agent_uuid'],'Network Policy Version',time.strftime('%Y-%m-%d %H:%M:%S', 
+                        time.localtime(data['desired_network_policy_config']['version']))])
+
+            data_list.append([data['agent_uuid'],'Version',time.strftime('%Y-%m-%d %H:%M:%S', 
+                        time.localtime(data['provisioned_network_policy_config']['version']))])
+            data_list.append([data['agent_uuid'],'Status',data['provisioned_network_policy_config']['error_reason']])
+
+            self.app.render(data_list, headers=headers)
+        else:
+            self.app.log.error('No agent {0} found, use valid agent id -aid'.format(agent_uuid))
 
     @ex(help='Policy Statistics', arguments=[
         (['-aid'],
@@ -55,7 +76,9 @@ class Enforcement(Controller):
         response = restclient.get('/enforcement/agents/{0}/concrete_policies/{1}/stats?t0={2}&t1={3}&td={4}'
                             .format(agent_uuid, policy_uuid, stats_start, stats_end, stats_agg))
 
-        self.app.log.debug('{0} {1}'.format(response.status_code, response.content.decode('utf-8')))
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                    response.content.decode('utf-8')))
+
         data = {
             'results': response.content.decode('utf-8'),
         }

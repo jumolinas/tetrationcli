@@ -19,8 +19,8 @@ class Applications(Controller):
         restclient = self.app.tetpyclient
         response = restclient.get('/applications')
         content = json.loads(response.content.decode("utf-8"))
-        self.app.log.debug('command returned: %s' % response.status_code)
-        self.app.log.debug('data returned: %s' % content)
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
  
         headers = ['Application ID', 'Name', 'Scope ID']
         data_list = [[x['id'],
@@ -43,7 +43,8 @@ class Applications(Controller):
         }
         restclient = self.app.tetpyclient
         response = restclient.delete('/applications/{0}'.format(data['application_id']))
-        self.app.log.debug('command returned: %s' % response.status_code)
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         if response.status_code in [200,204]:
             self.app.log.info('Deleted Application {0}'.format(data['application_id']))
         else:

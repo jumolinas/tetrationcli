@@ -70,21 +70,4 @@ class Policies(Controller):
             
             self.app.render(data, 'policy_details.jinja2')
             self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-        
-        # @ex(help='create new policy', arguments=[
-        #     ()
-        # ])
-        # def create(self):
-        #     """
-        #     {
-        #         "version": "v1",
-        #         "rank" : "DEFAULT",
-        #         "policy_action" : "ALLOW",
-        #         "priority" : 100,
-        #         "consumer_filter_id" : "123456789",
-        #         "provider_filter_id" : "987654321",
-        #     }
-        #     """
-        #     self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
-
-
+   

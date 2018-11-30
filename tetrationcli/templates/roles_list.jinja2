@@ -1,9 +1,0 @@
-Role ID                  | Name 
--------------------------+------------------------------------------
-{% macro dump_roles(roles) -%}
-{%- for item in roles %}
-{{ caller(item) }}{%- endfor %}
-{%- endmacro %}
-{%- call(item) dump_roles(results) %}
-{{ item.id }} | {{ item.name }}
-{%- endcall %}

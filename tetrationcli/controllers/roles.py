@@ -12,7 +12,8 @@ class Roles(Controller):
     def list(self):
         restclient = self.app.tetpyclient
         response = restclient.get('/roles')
-        self.app.log.debug('Roles Command: %s' % response.status_code)
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         data = json.loads(response.content.decode("utf-8"))
         
         headers = ['Role ID', 'Name']

@@ -23,8 +23,9 @@ class Agents(Controller):
         """
         restclient = self.app.tetpyclient
         response = restclient.get('/sensors')
-        self.app.log.debug('command returned: %s' % response.status_code)
-        data = {}
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
+        
         data = json.loads(response.content.decode("utf-8"))
         
         self.app.log.debug('data returned: %s' % data)
@@ -55,8 +56,8 @@ class Agents(Controller):
         self.app.log.debug("Deleting Sensor UUID: %s" % data['uuid_to_delete'])
         restclient = self.app.tetpyclient
         response = restclient.delete('/sensors/%s' % data['uuid_to_delete'])
-        self.app.log.debug('Deleting Sensor: status_Code=%s' % response.status_code)
-        self.app.log.debug('Deleting Sensor: %s' % response.content.decode("utf-8"))
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
         if response.status_code == 204:
             self.app.log.info('Sensor %s deleted' % data['uuid_to_delete'])
         else:
