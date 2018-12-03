@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json, time
 
-class Enforcement(Controller):
+class Enforcement(TetController):
     
     class Meta:
         label = 'enforcement'
@@ -17,8 +18,7 @@ class Enforcement(Controller):
         """
         agent_uuid = self.app.pargs.agent_uuid
         if agent_uuid:
-            restclient = self.app.tetpyclient
-            response = restclient.get('/enforcement/agents/{0}/network_policy_config'.format(agent_uuid))
+            response = self.tetration().get('/enforcement/agents/{0}/network_policy_config'.format(agent_uuid))
             self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                     response.content.decode('utf-8')))
             
@@ -72,8 +72,7 @@ class Enforcement(Controller):
         self.app.log.debug('Agent ID={0}, Policy ID={1}, Start={2}, End={3}, Aggregate={4}'
                             .format(agent_uuid, policy_uuid, stats_start, stats_end, stats_agg))
         
-        restclient = self.app.tetpyclient
-        response = restclient.get('/enforcement/agents/{0}/concrete_policies/{1}/stats?t0={2}&t1={3}&td={4}'
+        response = self.tetration().get('/enforcement/agents/{0}/concrete_policies/{1}/stats?t0={2}&t1={3}&td={4}'
                             .format(agent_uuid, policy_uuid, stats_start, stats_end, stats_agg))
 
         self.app.log.debug('{0} - {1}'.format(response.status_code,

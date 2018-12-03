@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class Policies(Controller):
+class Policies(TetController):
     """
     This endpoint returns a list of policies for a particular application. This API is available to API keys with app_policy_management capability.
     """
@@ -11,7 +12,7 @@ class Policies(Controller):
         stacked_type = 'nested'
 
     @ex(help='List the policies from given application', arguments=[
-        (['application'],
+        (['-application'],
         {'help': 'Application ID to request policies', 'action': 'store', 'dest': 'application_id'}),
         (['-default'],
         {'help': 'Show the default policies', 'action': 'store_true', 'dest': 'default'}),
@@ -29,16 +30,15 @@ class Policies(Controller):
         GET /openapi/v1/applications/:application_id/catch_all
         """
         application_id = self.app.pargs.application_id
-        restclient = self.app.tetpyclient
 
         if self.app.pargs.default:
-            response = restclient.get('/applications/{0}/default_policies'.format(application_id))
+            response = self.tetration().get('/applications/{0}/default_policies'.format(application_id))
         elif self.app.pargs.absolute:
-            response = restclient.get('/applications/{0}/absolute_policies'.format(application_id))
+            response = self.tetration().get('/applications/{0}/absolute_policies'.format(application_id))
         elif self.app.pargs.catch_all:
-            response = restclient.get('/applications/{0}/catch_all'.format(application_id))
+            response = self.tetration().get('/applications/{0}/catch_all'.format(application_id))
         else:
-            response = restclient.get('/applications/{0}/policies'.format(application_id))
+            response = self.tetration().get('/applications/{0}/policies'.format(application_id))
 
         self.app.log.debug('{0} - {1}'.format(response.status_code, response.content.decode('utf-8')))
 
@@ -59,9 +59,8 @@ class Policies(Controller):
             GET /openapi/v1/policies/:policy_id
             """
             policy_id = self.app.pargs.policy_id
-            restclient = self.app.tetpyclient
 
-            response = restclient.get('/policies/{0}'.format(policy_id))
+            response = self.tetration().get('/policies/{0}'.format(policy_id))
             self.app.log.debug('{0} - {1}'.format(response.status_code, response.content.decode('utf-8')))
 
             data = {

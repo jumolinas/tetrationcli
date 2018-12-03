@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class Applications(Controller):
+class Applications(TetController):
     
     class Meta:
         label = 'applications'
@@ -16,8 +17,7 @@ class Applications(Controller):
         """
         Return the list of all the applications
         """
-        restclient = self.app.tetpyclient
-        response = restclient.get('/applications')
+        response = self.tetration().get('/applications')
         content = json.loads(response.content.decode("utf-8"))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
@@ -41,8 +41,7 @@ class Applications(Controller):
         data = {
             'application_id': self.app.pargs.application_id
         }
-        restclient = self.app.tetpyclient
-        response = restclient.delete('/applications/{0}'.format(data['application_id']))
+        response = self.tetration().delete('/applications/{0}'.format(data['application_id']))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         if response.status_code in [200,204]:

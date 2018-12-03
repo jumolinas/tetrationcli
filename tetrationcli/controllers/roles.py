@@ -1,17 +1,16 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class Roles(Controller):
+class Roles(TetController):
 
     class Meta:
         label = 'roles'
         stacked_type = 'nested'
-        # stacked_on = 'base'
 
     @ex(help='list roles')
     def list(self):
-        restclient = self.app.tetpyclient
-        response = restclient.get('/roles')
+        response = self.tetration().get('/roles')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         data = json.loads(response.content.decode("utf-8"))
@@ -22,6 +21,23 @@ class Roles(Controller):
 
         self.app.render(data_list, headers=headers)
 
-    @ex(help='delete')
+    @ex(help='delete', arguments=[
+        (['-role'],
+            {'help': 'Role ID to delete', 'action': 'store', 'dest': 'role_id'})
+    ])
     def delete(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')
+        """
+        DELETE /openapi/v1/roles/{role_id}
+        """
+        role_id =  self.app.pargs.role_id
+    
+        self.app.log.debug("Deleting Role ID: %s" % role_id)
+        response = self.tetration().delete('/roles/%s' % role_id)
+        self.app.log.debug('{0} - {1}'.format(response.status_code,
+                                                response.content.decode('utf-8')))
+        if response.status_code == 204:
+            self.app.log.info('Role %s deleted' % role_id)
+        else:
+            self.app.log.error('{0}: Role ID {1} - {2}'.format(response.status_code
+                                                , role_id
+                                                , response.content.decode('utf8')))

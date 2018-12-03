@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class Users(Controller):
+class Users(TetController):
 
     class Meta:
         label = 'users'
@@ -11,7 +12,7 @@ class Users(Controller):
     @ex(help='list users')
     def list(self):
         restclient = self.app.tetpyclient
-        response = restclient.get('/users')
+        response = self.tetration().get('/users')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         data = json.loads(response.content.decode("utf-8"))

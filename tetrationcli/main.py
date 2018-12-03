@@ -4,7 +4,6 @@ from cement.core.exc import CaughtSignal
 from .core.exc import TetrationCLIError
 from .controllers.base import Base
 from .controllers.agents import Agents
-# from .controllers.agents_inventory import Inventory
 from .controllers.swiches import Switches
 from .controllers.scopes import Scopes
 from .controllers.roles import Roles
@@ -13,28 +12,6 @@ from .controllers.applications import Applications
 from .controllers.vrfs import VRFs
 from .controllers.inventory import Inventory
 from .controllers.enforcement import Enforcement
-
-from tetpyclient import RestClient
-import urllib3
-
-def extend_tetpyclient(app):
-    app.log.info('creating tetration session')
-    try:
-        api_endpoint = app.config.get('tetrationcli', 'api_endpoint')
-        if '<UI_VIP_OR_DNS_FOR_TETRATION_DASHBOARD>' in api_endpoint or not api_endpoint:
-            raise ValueError('Tetration End Point not set: Check the config file')
-        http = urllib3.PoolManager()
-        http.request('GET', api_endpoint)
-
-        api_credentials_file = app.config.get('tetrationcli', 'api_credentials')
-        
-        app.log.info('session to Tetration Cluster %s' % api_endpoint)
-
-        app.extend('tetpyclient', RestClient(api_endpoint,
-                                    credentials_file=api_credentials_file,
-                                    verify=False))
-    except Exception as e:
-        app.log.error(str(e))
 
 
 # configuration defaults
@@ -62,15 +39,10 @@ class TetrationCLI(App):
             'tabulate',
         ]
 
-        hooks = [
-            ('post_setup', extend_tetpyclient)
-        ]
-
         # set the log handler
         log_handler = 'colorlog'
 
         # set the output handler
-        # output_handler = 'jinja2'
         output_handler = 'tabulate'
 
         # register handlers

@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class VRFs(Controller):
+class VRFs(TetController):
 
     class Meta:
         label = 'vrfs'
@@ -10,8 +11,7 @@ class VRFs(Controller):
 
     @ex(help='list vrfs')
     def list(self):
-        restclient = self.app.tetpyclient
-        response = restclient.get('/vrfs')
+        response = self.tetration().get('/vrfs')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         data = json.loads(response.content.decode("utf-8"))

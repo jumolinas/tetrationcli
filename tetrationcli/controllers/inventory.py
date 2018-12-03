@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class Inventory(Controller):
+class Inventory(TetController):
 
     class Meta:
         label = 'inventory'
@@ -14,8 +15,7 @@ class Inventory(Controller):
     def list(self):
         """
         """
-        restclient = self.app.tetpyclient
-        response = restclient.get('/filters/inventories')
+        response = self.tetration().get('/filters/inventories')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         
@@ -39,8 +39,7 @@ class Inventory(Controller):
             'inventory_id': self.app.pargs.inventory_id
         }
 
-        resclient = self.app.tetpyclient
-        response = resclient.get('/filters/inventories/{0}'.format(data['inventory_id']))
+        response = self.tetration().get('/filters/inventories/{0}'.format(data['inventory_id']))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
 

@@ -1,7 +1,8 @@
-from cement import Controller, ex
+from cement import ex
+from .tet_controller import TetController
 import json
 
-class Scopes(Controller):
+class Scopes(TetController):
     """
     Object 
     Attribute	        Type	Description
@@ -21,26 +22,14 @@ class Scopes(Controller):
     class Meta:
         label = 'scopes'
         stacked_type = 'nested'
-        # stacked_on = 'base'
-
-    def root_scope(self, restclient, scope_id):
-        response = restclient.get('/app_scopes/{0}'.format(scope_id))
-        json_resp = json.loads(response.content.decode('utf-8'))
-        self.app.log.debug('Getting root_scope for {0}: {1} - {2}'.format(scope_id,     
-                                                                    response.status_code,
-                                                                    response.content.decode('utf-8')))
-        return json_resp['parent_app_scope_id']
-
 
     @ex(help='list scopes', arguments=[
-        # (['-all'],
-        #     {'help': 'show more columns', 'action': 'store_true', 'dest': 'all'})
-        # TODO: Create option for extra columns
+        # (['-columns'],
+        #     {'help': 'show columns', 'action': 'store', 'dest': 'columns'})
     ])
     def list(self):
-        restclient = self.app.tetpyclient
         
-        response = restclient.get('/app_scopes')
+        response = self.tetration().get('/app_scopes')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
 
@@ -61,11 +50,10 @@ class Scopes(Controller):
         """
         DELETE /openapi/v1/app_scopes/{app_scope_id}
         """
-        restclient = self.app.tetpyclient
         data = {
             'scope_id': self.app.pargs.scope_id
         }
-        response = restclient.delete('/app_scopes/{0}'.format(data['scope_id']))
+        response = self.tetration().delete('/app_scopes/{0}'.format(data['scope_id']))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         if response.status_code == 422:
@@ -86,10 +74,9 @@ class Scopes(Controller):
             {'help': 'Scope ID to Update', 'action': 'store', 'dest': 'scope_id'}),
     ])
     def policy(self):
-        restclient = self.app.tetpyclient
         scope_id = self.app.pargs.scope_id
 
-        response = restclient.get('/app_scopes/{0}/policy_order'.format(scope_id))
+        response = self.tetration().get('/app_scopes/{0}/policy_order'.format(scope_id))
         json_content = json.loads(response.content.decode('utf-8'))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
