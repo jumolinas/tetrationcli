@@ -11,7 +11,7 @@ from .controllers.users import Users
 from .controllers.applications import Applications
 from .controllers.vrfs import VRFs
 from .controllers.inventory import Inventory
-from .controllers.enforcement import Enforcement
+
 
 
 # configuration defaults
@@ -49,7 +49,6 @@ class TetrationCLI(App):
         handlers = [
             Base,
             Agents,
-            # Inventory,
             Switches,
             Scopes,
             Roles,
@@ -57,7 +56,6 @@ class TetrationCLI(App):
             Applications,
             VRFs,
             Inventory,
-            Enforcement,
         ]
 
 
