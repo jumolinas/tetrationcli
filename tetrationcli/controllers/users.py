@@ -11,7 +11,6 @@ class Users(TetController):
 
     @ex(help='list users')
     def list(self):
-        restclient = self.app.tetpyclient
         response = self.tetration().get('/users')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))

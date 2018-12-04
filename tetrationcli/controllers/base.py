@@ -2,7 +2,8 @@
 from cement import Controller, ex
 from cement.utils.version import get_version_banner
 from ..core.version import get_version
-import os, errno, json
+from pathlib import Path
+import os, errno, json, shutil
 
 VERSION_BANNER = """
 Application to query Tetration Analytics from the command line %s
@@ -37,8 +38,8 @@ class Base(Controller):
     @ex(help='Application setup')
     def setup(self):
         tet_cluster = input('Tetration Analytics cluster (eg: https://great.example.com/): ')
-        tet_user = input('Tetration User Credentials: ')
-        tet_pass = input('Tetration Password Credentials: ')
+        tet_user = input('Tetration API Key: ')
+        tet_pass = input('Tetration API Secret: ')
 
         self.app.log.debug('{0} - {1} - {2}'.format(tet_cluster, tet_user, tet_pass))
 
@@ -47,7 +48,8 @@ class Base(Controller):
 
         self.app.log.debug('Generating the configuration file')
         
-        config_location = '~/.config/tetrationcli/'
+        home = str(Path.home())
+        config_location = home+'/.config/tetrationcli/'
         config_file = 'tetrationcli.conf'
         credentials_file = 'api_credentials.json'
 
@@ -57,16 +59,32 @@ class Base(Controller):
 
         # Create the configuration file
         with open(config_location+config_file, 'w') as config:
-            config.write('[tetrationcli]')
-            config.write('api_endpoint = %s' % tet_cluster)
-            config.write('api_credentials = %s' % config_location+credentials_file)
+            config.write('[tetrationcli]\n')
+            config.write('api_endpoint = {0}\n'.format(tet_cluster))
+            config.write('api_credentials = {0}\n'.format(config_location+credentials_file))
             config.close()
         
+        # Create the app_credentials.json file
         with open(config_location+credentials_file, 'w') as credentials:
-            json_credentials = {
-                'api_key': tet_user,
+            app_credentials = {
+                'api_key': tet_user, 
                 'api_secret': tet_pass
             }
-            credentials.write(json.dumps(json.loads(json_credentials)))
+            json.dump(app_credentials, credentials,indent=4, sort_keys=True)
             credentials.close()
+
+    @ex(help='Clear the configuration')
+    def clear(self):
+        home = str(Path.home())
+        config_location = home + '/.config/tetrationcli'
+        delete_it = input('This operation will delete the folder {0}. Are you sure? [y/N] '
+                    .format(config_location))
+
+        if "y" in str(delete_it).lower or "yes" in str(delete_it).lower:
+            self.app.log.debug('Deleting config folder {0}'.format(config_location))
+            shutil.rmtree(config_location)
+        else:
+            self.app.log.debug('Nothing to delete: {0}'.format(delete_it))
+        
+
     
