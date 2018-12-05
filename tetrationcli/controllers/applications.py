@@ -7,6 +7,7 @@ class Applications(TetController):
     class Meta:
         label = 'applications'
         stacked_type = 'nested'
+        help= 'Interact with ADM Application from Tetration Cluster'
     
     @ex(help='list applications', arguments=[
     ])

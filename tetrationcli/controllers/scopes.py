@@ -22,6 +22,7 @@ class Scopes(TetController):
     class Meta:
         label = 'scopes'
         stacked_type = 'nested'
+        help= 'Interact with Scopes configured in Tetration Cluster'
 
     @ex(help='list scopes', arguments=[
         # (['-columns'],

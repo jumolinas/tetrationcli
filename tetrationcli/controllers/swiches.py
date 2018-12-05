@@ -7,7 +7,7 @@ class Switches(TetController):
     class Meta:
         label = 'switches'
         stacked_type = 'nested'
-        # stacked_on = 'base'
+        help= 'Interact with Hardware Sensors from Tetration Cluster'
 
     @ex(help='list hardware sensors')
     def list(self):
@@ -24,6 +24,3 @@ class Switches(TetController):
 
         self.app.render(data_list, headers=headers)
 
-    @ex(help='delete')
-    def delete(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

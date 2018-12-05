@@ -7,7 +7,7 @@ class Users(TetController):
     class Meta:
         label = 'users'
         stacked_type = 'nested'
-        # stacked_on = 'base'
+        help= 'Interact with Users from Tetration Cluster'
 
     @ex(help='list users')
     def list(self):
@@ -23,6 +23,3 @@ class Users(TetController):
 
         self.app.render(data_list, headers=headers)
 
-    @ex(help='delete')
-    def delete(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

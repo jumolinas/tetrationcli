@@ -72,6 +72,8 @@ class Base(Controller):
             }
             json.dump(app_credentials, credentials,indent=4, sort_keys=True)
             credentials.close()
+        
+        self.app.log.info('Configuration files set in {0}'.format(config_location))
 
     @ex(help='Clear the configuration')
     def clear(self):
@@ -80,9 +82,13 @@ class Base(Controller):
         delete_it = input('This operation will delete the folder {0}. Are you sure? [y/N] '
                     .format(config_location))
 
-        if "y" in str(delete_it).lower or "yes" in str(delete_it).lower:
-            self.app.log.debug('Deleting config folder {0}'.format(config_location))
-            shutil.rmtree(config_location)
+        if "y" in str(delete_it).lower() or "yes" in str(delete_it).lower():
+            try:
+                self.app.log.debug('Deleting config folder {0}'.format(config_location))
+                shutil.rmtree(config_location)
+                self.app.log.info('Deleted configuration')
+            except FileNotFoundError:
+                self.app.log.info('Configuration not present, already deleted or not setup')
         else:
             self.app.log.debug('Nothing to delete: {0}'.format(delete_it))
         

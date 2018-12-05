@@ -7,7 +7,7 @@ class VRFs(TetController):
     class Meta:
         label = 'vrfs'
         stacked_type = 'nested'
-        # stacked_on = 'base'
+        help= 'Interact with VRFs in Tetration Cluster'
 
     @ex(help='list vrfs')
     def list(self):
@@ -22,6 +22,3 @@ class VRFs(TetController):
 
         self.app.render(data_list, headers=headers)
     
-    @ex(help='delete')  
-    def delete(self):
-        self.app.log.error('FEATURE NOT IMPLEMENTED YET, OPEN A ISSUE')

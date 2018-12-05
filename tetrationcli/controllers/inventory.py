@@ -7,6 +7,7 @@ class Inventory(TetController):
     class Meta:
         label = 'inventory'
         stacked_type = 'nested'
+        help= 'Interact with Inventory from Tetration Cluster'
 
     @ex(help='List inventories', arguments=[
         (['-all'],

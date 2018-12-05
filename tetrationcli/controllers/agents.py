@@ -8,6 +8,7 @@ class Agents(TetController):
         label = 'agents'
         stacked_type = 'nested'
         stacked_on = 'base'
+        help= 'Interact with Software Sensors in Tetration Cluster'
 
     @ex(help='list agents', arguments=[
             (['-columns'],

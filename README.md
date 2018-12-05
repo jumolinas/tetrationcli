@@ -19,8 +19,56 @@ $ pip install -r requirements.txt
 $ pip install setup.py
 ```
 
-## Basic to run the application:
-To access to the cluster you need to get the API Credentials. 
+## How to use this application:
+To access to the cluster you need to get the API Credentials. Download the api_credentials.json locally 
+to access later on.
+
+```
+$ tetrationcli -h
+usage: tetrationcli [-h] [-d] [-q] [-v]
+                    {inventory,vrfs,applications,users,roles,scopes,switches,agents,clear,setup}
+                    ...
+
+Tetration Analytics CLI tool
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           full application debug mode
+  -q, --quiet           suppress all console output
+  -v, --version         show program's version number and exit
+
+sub-commands:
+  {inventory,vrfs,applications,users,roles,scopes,switches,agents,clear,setup}
+    inventory           Interact with Inventory from Tetration Cluster
+    vrfs                Interact with VRFs in Tetration Cluster
+    applications        Interact with ADM Application from Tetration Cluster
+    users               Interact with Users from Tetration Cluster
+    roles               Interact with Roles in Tetration Cluster
+    scopes              Interact with Scopes configured in Tetration Cluster
+    switches            Interact with Hardware Sensors from Tetration Cluster
+    agents              Interact with Software Sensors in Tetration Cluster
+    clear               Clear the configuration
+    setup               Application setup
+
+Usage: tetrationcli command
+```
+### Easy setup
+
+Step 1: `tetrationcli setup` folow the instructions and place the correct information presented
+```
+$ tetrationcli setup
+Tetration Analytics cluster (eg: https://great.example.com/): https://great.example.com/
+Tetration API Key: ASDASDASADS
+Tetration API Secret: ASDASDASDASDFFF
+```
+
+Step 2: Test if you can successfully query the cluster from the command line
+```
+$ tetrationcli agents list
+```
+
+### Alternative way to setup the application
+
 The file `api_credentials.json` downloaded from the cluster is expected to be placed in folder `~/.config/tetrationcli/` then to define the cluster name you need to create the config file `tetrationcli.conf` in `~/.config/tetrationcli/`
 
 ```
@@ -36,3 +84,17 @@ and the file `tetrationcli.conf` requires the information:
 api_endpoint = https://mygreatapp.example.com
 api_credentials = ~/.config/tetrationcli/api_credentials.json
 ```
+
+## Related information
+
+### Options used
+
+#### Current scope for tetrationcli
+1. inventory           
+2. vrfs                
+3. applications        
+4. users               
+5. roles               
+6. scopes              
+7. switches            
+8. agents              

@@ -7,6 +7,7 @@ class Roles(TetController):
     class Meta:
         label = 'roles'
         stacked_type = 'nested'
+        help= 'Interact with Roles in Tetration Cluster'
 
     @ex(help='list roles')
     def list(self):
