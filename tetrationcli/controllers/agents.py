@@ -10,7 +10,7 @@ class Agents(TetController):
         stacked_on = 'base'
         help= 'Interact with Software Sensors in Tetration Cluster'
 
-    @ex(help='list agents', arguments=[
+    @ex(help='list all software agents installed', arguments=[
             (['-columns'],
                 {'help': 'Show more columns','action': 'store', 'dest': 'columns'}),
     ],)
@@ -49,10 +49,10 @@ class Agents(TetController):
 
         self.app.render(data_list, headers=headers)
 
-    @ex(help='delete', arguments=[
+    @ex(help='delete the selected software agent via uuid', arguments=[
         (
             ['-uuid'],
-                {'help': 'Delete Sensor','action': 'store', 'dest': 'uuid'}
+                {'help': 'Delete Sensor agent unique ID','action': 'store', 'dest': 'uuid'}
         )
     ],)
     def delete(self):

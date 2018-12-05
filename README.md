@@ -59,6 +59,23 @@ sub-commands:
 
 Usage: tetrationcli command
 ```
+
+Each subcommand has its own help that list the options available for each sub-command.
+
+```
+$ tetrationcli agents -h
+usage: tetrationcli agents [-h] {delete,list} ...
+
+optional arguments:
+  -h, --help     show this help message and exit
+
+sub-commands:
+  {delete,list}
+    delete       delete the selected software agent via uuid
+    list         list all software agents installed
+
+```
+
 ### Easy setup
 
 Step 1: Issue `tetrationcli setup` and folow the instructions and place the correct information presented
