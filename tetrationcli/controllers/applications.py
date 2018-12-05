@@ -19,7 +19,11 @@ class Applications(TetController):
         content = json.loads(response.content.decode("utf-8"))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
- 
+        
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "app_policy_management" permissions'.format(response.content.decode('utf-8')))
+            return
+        
         headers = ['Application ID', 'Name', 'Scope ID']
         data_list = [[x['id'],
                     x['name'],

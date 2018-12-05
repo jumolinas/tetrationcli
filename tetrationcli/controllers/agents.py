@@ -27,6 +27,9 @@ class Agents(TetController):
         response = self.tetration().get('/sensors')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "user_role_scope_management" permissions'.format(response.content.decode('utf-8')))
+            return
 
         data = json.loads(response.content.decode("utf-8"))
 
@@ -64,7 +67,11 @@ class Agents(TetController):
                                                 response.content.decode('utf-8')))
         if response.status_code == 204:
             self.app.log.info('Sensor %s deleted' % uuid)
-        else:
-            self.app.log.error('{0}: Sensor ID {1} - {2}'.format(response.status_code
+            return
+        elif response.status_code == 403:
+            self.app.log.error('{0}Request "user_role_scope_management" permissions'.format(response.content.decode('utf-8')))
+            return
+        
+        self.app.log.error('{0}: Sensor ID {1} - {2}'.format(response.status_code
                                                 , uuid
                                                 , response.content.decode('utf8')))

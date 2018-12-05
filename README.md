@@ -19,9 +19,17 @@ $ pip install setup.py
 ```
 
 ## How to use this application:
-To access to the cluster you need to get the API Credentials. Download the api_credentials.json locally 
-to get the information required for the setup.
+To access to the cluster you need to get the API Credentials with the following permissions
+* `sensor_management` - option: SW sensor management: API to configure and monitor status of SW sensors
+* `hw_sensor_management` - option: HW sensor management: API to configure and monitor status of HW sensors
+* `flow_inventory_query` - option: Flow and inventory search: API to query flows and inventory items in Tetration cluster
+* `user_role_scope_management` - option: Users, roles and scope management: API for root scope owners to read/add/modify/remove users, roles and scopes
+* `app_policy_management` - option: 
+ Applications and policy management: API to manage applications and enforce policies
 
+Download the api_credentials.json locally and have it ready to get the information required for the setup.
+
+A quick look for the help will list the current available options.
 ```
 $ tetrationcli -h
 usage: tetrationcli [-h] [-d] [-q] [-v]
@@ -66,11 +74,11 @@ Step 2: Test if you can successfully query the cluster from the command line
 $ tetrationcli agents list
 ```
 
-### Alternative way to setup the application
+### Manually setup the application
 
 The file `api_credentials.json` downloaded from the cluster is expected to be placed in 
 folder `~/.config/tetrationcli/` then to define the cluster name you need to create the 
-config file `tetrationcli.conf` in `~/.config/tetrationcli/`
+config file `tetrationcli.conf` in `%HOME_USER_FOLDER%/.config/tetrationcli/`
 
 ```
 total 16
@@ -100,4 +108,4 @@ api_credentials = ~/.config/tetrationcli/api_credentials.json
 7. switches
 8. agents
 
-For any new functionalites open an issue to be added.
+For any new functionalites open an issue and we will evaluate to add it.

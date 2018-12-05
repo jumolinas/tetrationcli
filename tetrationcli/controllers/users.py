@@ -14,6 +14,12 @@ class Users(TetController):
         response = self.tetration().get('/users')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
+        
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "user_role_scope_management" permissions'
+                                    .format(response.content.decode('utf-8')))
+            return
+        
         data = json.loads(response.content.decode("utf-8"))
         
         headers = ['User ID', 'Name', 'e-Mail']

@@ -14,6 +14,12 @@ class Switches(TetController):
         response = self.tetration().get('/switches')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
+        
+        if response.status_code == 403:
+            self.app.log.error('{0}, request "hw_sensor_management" permissions'
+                                    .format(response.content.decode('utf-8')))
+            return
+        
         data = json.loads(response.content.decode("utf-8"))
         
         headers = ['IP', 'Name', 'Serial', 'NXOS Version']

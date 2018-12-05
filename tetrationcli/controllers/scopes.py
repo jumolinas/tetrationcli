@@ -34,6 +34,11 @@ class Scopes(TetController):
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
 
+        if response.status_code == 403:
+            self.app.log.error('{0}, request "user_role_scope_management" permissions'
+                                    .format(response.content.decode('utf-8')))
+            return
+
         data = json.loads(response.content.decode("utf-8"))
         headers = ['Scope ID', 'Name', 'Parent Scope', 'VRF']
         data_list = [[x['id'],
@@ -57,6 +62,12 @@ class Scopes(TetController):
         response = self.tetration().delete('/app_scopes/{0}'.format(data['scope_id']))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
+        
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "user_role_scope_management" permissions'
+                                    .format(response.content.decode('utf-8')))
+            return
+
         if response.status_code == 422:
             error_details = json.loads(response.content.decode("utf-8"))
             error_message = '{0} \nDetails:\n'.format(error_details['error'])
@@ -82,6 +93,11 @@ class Scopes(TetController):
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "user_role_scope_management" permissions'
+                                    .format(response.content.decode('utf-8')))
+            return
+
         if response.status_code > 299:
             self.app.log.error('{0} - {1}'.format(json_content['status'], json_content['error']))
         else:

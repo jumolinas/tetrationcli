@@ -20,6 +20,10 @@ class Inventory(TetController):
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
         
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "flow_inventory_query" permissions'.format(response.content.decode('utf-8')))
+            return
+
         data = json.loads(response.content.decode('utf-8'))
         headers = ['UUID', 'Name', 'Scope ID', 'Query']
         data_list = [[x['id'],
@@ -43,6 +47,10 @@ class Inventory(TetController):
         response = self.tetration().get('/filters/inventories/{0}'.format(data['inventory_id']))
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
+
+        if response.status_code == 403:
+            self.app.log.error('{0}Request "flow_inventory_query" permissions'.format(response.content.decode('utf-8')))
+            return
 
         data = json.loads(response.content.decode('utf-8'))
         headers = ['UUID', 'Name', 'Scope ID', 'Query']
