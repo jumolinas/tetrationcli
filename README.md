@@ -1,7 +1,6 @@
 # Tetrationcli to interact with Tetration Cluster via the cli
 
 ## Installation
-Currently there are very limited options working, this application still in ALPHA state. For any improvements or comments fill an issue and we'll work on it.
 
 ### From PyPI
 
@@ -21,7 +20,7 @@ $ pip install setup.py
 
 ## How to use this application:
 To access to the cluster you need to get the API Credentials. Download the api_credentials.json locally 
-to access later on.
+to get the information required for the setup.
 
 ```
 $ tetrationcli -h
@@ -54,7 +53,7 @@ Usage: tetrationcli command
 ```
 ### Easy setup
 
-Step 1: `tetrationcli setup` folow the instructions and place the correct information presented
+Step 1: Issue `tetrationcli setup` and folow the instructions and place the correct information presented
 ```
 $ tetrationcli setup
 Tetration Analytics cluster (eg: https://great.example.com/): https://great.example.com/
@@ -69,7 +68,9 @@ $ tetrationcli agents list
 
 ### Alternative way to setup the application
 
-The file `api_credentials.json` downloaded from the cluster is expected to be placed in folder `~/.config/tetrationcli/` then to define the cluster name you need to create the config file `tetrationcli.conf` in `~/.config/tetrationcli/`
+The file `api_credentials.json` downloaded from the cluster is expected to be placed in 
+folder `~/.config/tetrationcli/` then to define the cluster name you need to create the 
+config file `tetrationcli.conf` in `~/.config/tetrationcli/`
 
 ```
 total 16
@@ -85,16 +86,18 @@ api_endpoint = https://mygreatapp.example.com
 api_credentials = ~/.config/tetrationcli/api_credentials.json
 ```
 
-## Related information
+## More information
 
 ### Options used
 
 #### Current scope for tetrationcli
-1. inventory           
-2. vrfs                
-3. applications        
-4. users               
-5. roles               
-6. scopes              
-7. switches            
-8. agents              
+1. inventory
+2. vrfs
+3. applications
+4. users
+5. roles
+6. scopes
+7. switches
+8. agents
+
+For any new functionalites open an issue to be added.
