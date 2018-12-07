@@ -11,8 +11,8 @@ class Agents(TetController):
         help= 'Interact with Software Sensors in Tetration Cluster'
 
     @ex(help='list all software agents installed', arguments=[
-            (['-columns'],
-                {'help': 'Show more columns','action': 'store', 'dest': 'columns'}),
+            # (['-columns'],
+            #     {'help': 'Show more columns','action': 'store', 'dest': 'columns'}),
     ],)
     def list(self):
         """
@@ -23,7 +23,8 @@ class Agents(TetController):
                 UUID | HostName | Agent Type
             list all - Show all columns
         """
-        columns = self.app.pargs.columns
+        # columns = self.app.pargs.columns
+        columns = None
         response = self.tetration().get('/sensors')
         self.app.log.debug('{0} - {1}'.format(response.status_code,
                                                 response.content.decode('utf-8')))
@@ -39,12 +40,13 @@ class Agents(TetController):
             headers = []
             data_list = []
         else:
-            headers = ['UUID', 'Host Name', 'Agent Type', 'Last Check-in']
+            headers = ['UUID', 'Host Name', 'Agent Type', 'Last Check-in', 'Scopes']
             data_list = [[x['uuid'],
                         x['host_name'],
                         x['agent_type'],
                         time.strftime('%Y-%m-%d %H:%M:%S',
-                            time.localtime(x['last_config_fetch_at']))]
+                            time.localtime(x['last_config_fetch_at'])),
+                        ','.join(set([y['vrf'] for y in x['interfaces']])) ]
                                                 for x in data['results'] ]
 
         self.app.render(data_list, headers=headers)
