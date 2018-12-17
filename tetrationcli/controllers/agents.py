@@ -40,12 +40,13 @@ class Agents(TetController):
             headers = []
             data_list = []
         else:
-            headers = ['UUID', 'Host Name', 'Agent Type', 'Last Check-in', 'Scopes']
+            headers = ['UUID', 'Host Name', 'Agent Type', 'Last Check-in', 'Version', 'Scopes']
             data_list = [[x['uuid'],
                         x['host_name'],
                         x['agent_type'],
                         time.strftime('%Y-%m-%d %H:%M:%S',
                             time.localtime(x['last_config_fetch_at'])),
+                        x['current_sw_version'],
                         ','.join(set([y['vrf'] for y in x['interfaces']])) ]
                                                 for x in data['results'] ]
 
