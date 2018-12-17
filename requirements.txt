@@ -3,4 +3,5 @@ pyyaml
 colorlog
 urllib3
 tabulate
+jinja2
 tetpyclient==1.0.7
