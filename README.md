@@ -126,3 +126,5 @@ api_credentials = ~/.config/tetrationcli/api_credentials.json
 8. agents
 
 For any new functionalites open an issue and we will evaluate to add it.
+
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/jumolinas/tetrationcli)
