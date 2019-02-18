@@ -1,5 +1,5 @@
 # Tetrationcli 
-### to interact with Tetration Cluster via the cli
+to interact with Tetration Cluster via the cli
 
 ## Installation
 
