@@ -53,11 +53,14 @@ class Inventory(TetController):
             return
 
         data = json.loads(response.content.decode('utf-8'))
+        UUID = data['id']
+        NAME = data['name']
+        SCOPE_ID = data['app_scope_id']
         headers = ['UUID', 'Name', 'Scope ID', 'Query']
-        data_list = [[x['id'],
-                    x['name'],
-                    x['app_scope_id'],
-                    x['short_query']] for x in data ]
+        data_list = [[UUID,
+                        NAME,
+                        SCOPE_ID,
+                        x] for x in data['query']['filters']]
 
 
         self.app.render(data_list, headers=headers)
