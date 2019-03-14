@@ -1,4 +1,5 @@
-# Tetrationcli to interact with Tetration Cluster via the cli
+# Tetrationcli 
+to interact with Tetration Cluster via the cli
 
 ## Installation
 
@@ -60,7 +61,7 @@ sub-commands:
 Usage: tetrationcli command
 ```
 
-Each subcommand has its own help that list the options available for each sub-command.
+Each subcommand has its own help that list the options available.
 
 ```
 $ tetrationcli agents -h
@@ -78,7 +79,7 @@ sub-commands:
 
 ### Easy setup
 
-Step 1: Issue `tetrationcli setup` and folow the instructions and place the correct information presented
+Step 1: Issue `tetrationcli setup` folow the instructions and place the correct requested information
 ```
 $ tetrationcli setup
 Tetration Analytics cluster (eg: https://great.example.com/): https://great.example.com/
